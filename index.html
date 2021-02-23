@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="apple-touch-icon" href="your-icon-image.png">
+  <link rel="stylesheet" href="index.css">
 
   <!-- If you need a startup image, add the following tag.
    Be sure to set the correct device-width for the device you're testing with. -->
@@ -19,11 +20,6 @@
 </head>
 
 <body>
-  <audio data-theme="night" data-src="https://changelog.com/jsparty/85/embed"
-    src="https://cdn.changelog.com/uploads/jsparty/85/js-party-85.mp3" preload="none" class="changelog-episode"
-    controls></audio>
-
-  <script async src="//cdn.changelog.com/embed.js"></script>
 
   <section class="section">
     <div class="container">
@@ -31,7 +27,7 @@
         Repeatapod
       </h1>
       <p class="subtitle">
-        Listen to the same podcast episodes repeatedly using <strong>Bulma</strong>!
+        Listen to the same podcast episodes repeatedly!
       </p>
     </div>
   </section>
@@ -39,7 +35,7 @@
   <section class="section">
     <div class="tabs is-fullwidth is-toggle">
       <ul>
-        <li class="is-active" data-target="playlists">
+        <li data-target="playlists">
           <a>
             <span class="is-icon is-small">
               <i class="fas fa-list" aria-hidden="true"></i>
@@ -54,7 +50,7 @@
             <span>Episodes</span>
           </a>
         </li>
-        <li data-target="search">
+        <li class="is-active" data-target="search">
           <a>
             <span class="is-icon is-small">
               <i class="fas fa-search" aria-hidden="true"></i>
@@ -64,26 +60,34 @@
         </li>
       </ul>
     </div>
-    <div class="px-2" id="tab-content">
-      <div id="playlists">
+
+
+    <div id="tab-content">
+
+      <div class="is-hidden" id="playlists">
         <div class="title">Your playlists</div>
       </div>
+
       <div class="is-hidden" id="episodes">
         <div class="title">Your episodes</div>
       </div>
-      <div class="is-hidden" id="search">
+
+      <div id="search">
         <div class="field has-addons">
           <div class="control">
-            <input class="input" type="text" placeholder="Find a podcast">
+            <input class="input" type="text" placeholder="Find a podcast" id="search-field">
           </div>
           <div class="control">
-            <a class="button is-info">
+            <a class="button is-info" id="search-button">
               Search
             </a>
           </div>
         </div>
+        <div id="search-matches">
+        </div>
+
       </div>
-    </div>
+
   </section>
 
   <script src="index.js"></script>
