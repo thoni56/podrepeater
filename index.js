@@ -35,6 +35,7 @@ function clearEpisodes() {
 function populateEpisodes(data) {
     const items = [].slice.call(data);
     items.reverse();
+    console.log(items);
     items.forEach((item) => {
         const title = item.getElementsByTagName("title")[0].textContent;
         const image = item
@@ -43,6 +44,8 @@ function populateEpisodes(data) {
         let description = item.getElementsByTagName("itunes:subtitle");
         if (description && description.length > 0)
             description = description[0].textContent;
+        else
+            description = "";
         let season = item.getElementsByTagName("itunes:season");
         if (season && season.length > 0)
             season = "Season " + season[0].textContent + " : ";
@@ -54,8 +57,15 @@ function populateEpisodes(data) {
         let episodeType = item.getElementsByTagName("itunes:episodeType");
         if (episodeType && episodeType.length > 0)
             episodeType = episodeType[0].textContent;
+        else episodeType = '';
         if (episode === '' && episodeType != '')
             episode = episodeType;
+        let pubDate = item.getElementsByTagName("pubDate");
+        pubDate = new Date(pubDate[0].innerHTML);
+        const formattedDate =
+            pubDate.getFullYear() + '-' +
+            (pubDate.getMonth() + 1).toString().padStart(2, '0') + '-' +
+            pubDate.getDate().toString().padStart(2, '0')
         const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
@@ -67,6 +77,8 @@ function populateEpisodes(data) {
             ${description}
             </p><p><span class="is-italic is-size-6">
             ${season}${episode}
+            </span><span>
+            ${formattedDate}
             </span></p></div></div></div>`;
         episodesList.appendChild(listElement);
     });
@@ -138,7 +150,7 @@ async function fetchPodcasts(term) {
 }
 
 function doSearch() {
-    searchTerm = encodeURIComponent(searchField.value);
+    const searchTerm = encodeURIComponent(searchField.value);
     fetchPodcasts(searchTerm).then((data) => {
         clearSearches();
         populatePodcasts(data);
