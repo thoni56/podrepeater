@@ -37,7 +37,12 @@ function populate(data) {
     matches.forEach((match) => {
         let listElement = document.createElement('div')
         listElement.className = "card is-horizontal"
-        listElement.innerHTML = t1 + match.artworkUrl100 + t2 + match.collectionName + t3 + match.artistName + t4 + match.primaryGenreName + t5;
+        listElement.innerHTML =
+            t1 + match.artworkUrl100 +
+            t2 + match.collectionName +
+            t3 + match.artistName +
+            t4 + match.primaryGenreName +
+            t5;
         searchMatches.appendChild(listElement);
     })
 }
