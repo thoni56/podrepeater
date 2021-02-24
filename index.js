@@ -24,16 +24,25 @@ function switchToEpisodes() {
 }
 
 // List Episodes
-const episodesList = document.querySelector("#episodes");
+const episodesList = document.querySelector("#episode-list");
+
+function clearEpisodes() {
+    while (episodesList.firstChild) {
+        episodesList.firstChild.remove();
+    }
+}
 
 function populateEpisodes(items) {
-    items.forEach((item) => {
-        let cardElement = document.createElement("div");
-        cardElement.className = "list-item tags";
-        cardElement.innerHTML = `<span class='tag is-white'><i class="fas fa-database"></i></span> 
-            <li class="title">${item.title}</li>`;
-        episodesList.appendChild(cardElement);
-    });
+    for (const item of items) {
+        title = item.getElementsByTagName("title")[0].textContent;
+        image = item
+            .getElementsByTagName("itunes:image")[0]
+            .getAttribute("href");
+        let listElement = document.createElement("div");
+        listElement.className = "list-item";
+        listElement.innerHTML = `<figure class="image"><img src="${image}"></figure><li class="title is-size-5">${title}</li>`;
+        episodesList.appendChild(listElement);
+    }
     if (items.length > 0) {
         switchToEpisodes();
     }
@@ -41,7 +50,8 @@ function populateEpisodes(items) {
 
 function parseRss(data) {
     console.log(data);
-    const items = data.querySelectorAll("item");
+    const items = data.getElementsByTagName("item");
+    clearEpisodes();
     populateEpisodes(items);
 }
 
@@ -53,12 +63,11 @@ function fetchRss(url) {
 }
 
 // Search for Podcasts
-const searchMatches = document.querySelector("#search-matches");
+const podcastList = document.querySelector("#podcast-list");
 
 function clearSearches() {
-    batch = 0;
-    while (searchMatches.firstChild) {
-        searchMatches.firstChild.remove();
+    while (podcastList.firstChild) {
+        podcastList.firstChild.remove();
     }
 }
 
@@ -82,7 +91,7 @@ function populatePodcasts(data) {
                 </span><a href="${match.feedUrl}">
                 ${match.feedUrl}
                 </a></p></div></div></div>`;
-        searchMatches.appendChild(cardElement);
+        podcastList.appendChild(cardElement);
         cardElement.addEventListener("click", () => {
             fetchRss(match.feedUrl);
         });
