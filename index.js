@@ -33,13 +33,8 @@ function clearEpisodes() {
 }
 
 function populateEpisodes(data) {
-    items = [].slice.call(data);
-    items.sort((a, b) => {
-        return (
-            a.getElementsByTagName("itunes:episode") >
-            b.getElementsByTagName("itunes:episode")
-        );
-    });
+    const items = [].slice.call(data);
+    items.reverse();
     items.forEach((item) => {
         const title = item.getElementsByTagName("title")[0].textContent;
         const image = item
@@ -50,12 +45,17 @@ function populateEpisodes(data) {
             description = description[0].textContent;
         let season = item.getElementsByTagName("itunes:season");
         if (season && season.length > 0)
-            season = "Season " + season[0].textContent + ":";
-        else season = null;
+            season = "Season " + season[0].textContent + " : ";
+        else season = "";
         let episode = item.getElementsByTagName("itunes:episode");
         if (episode && episode.length > 0)
             episode = "Episode " + episode[0].textContent;
-        else episode = null;
+        else episode = "";
+        let episodeType = item.getElementsByTagName("itunes:episodeType");
+        if (episodeType && episodeType.length > 0)
+            episodeType = episodeType[0].textContent;
+        if (episode === '' && episodeType != '')
+            episode = episodeType;
         const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
@@ -65,7 +65,7 @@ function populateEpisodes(data) {
             ${title}
             </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
             ${description}
-            </p><p><span class="is-italic is-size-7">
+            </p><p><span class="is-italic is-size-6">
             ${season}${episode}
             </span></p></div></div></div>`;
         episodesList.appendChild(listElement);
