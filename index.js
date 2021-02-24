@@ -66,11 +66,11 @@ function populateEpisodes(data) {
 
 function parseRss(data) {
     const items = data.getElementsByTagName("item");
-    clearEpisodes();
     populateEpisodes(items);
 }
 
 function fetchRss(url) {
+    clearEpisodes();
     fetch(url)
         .then((response) => response.text())
         .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
