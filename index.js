@@ -1,4 +1,4 @@
-// Tabbed content
+// Handling the tabs
 const tabs = document.querySelectorAll(".tabs li");
 const tabContentBoxes = document.querySelectorAll("#tab-content > div");
 
@@ -23,7 +23,7 @@ function switchToEpisodes() {
     activateTab("episodes");
 }
 
-// List Episodes
+// Fetch and List Episodes
 const episodesList = document.querySelector("#episode-list");
 
 function clearEpisodes() {
@@ -77,7 +77,7 @@ function fetchRss(url) {
         .then((data) => parseRss(data));
 }
 
-// Search for Podcasts
+// Search and list Podcasts
 const podcastList = document.querySelector("#podcast-list");
 
 function clearSearches() {
