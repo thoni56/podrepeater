@@ -53,9 +53,13 @@ async function fetchPodcasts(term) {
     return response.json();
 }
 
+const searchField = document.getElementById('search-field');
 const searchButton = document.querySelector('#search-button')
-searchButton.addEventListener('click', (e) => {
-    const term = document.getElementById('search-field').value;
+searchButton.addEventListener('click', () => { doSearch(); })
+searchField.addEventListener('keyup', (e) => { if (e.key === 'Enter') doSearch(); })
+function doSearch() {
+    const term = searchField.value;
     fetchPodcasts(term).then(data => populate(data));
-})
+}
+
 
