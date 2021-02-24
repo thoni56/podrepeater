@@ -92,9 +92,9 @@ function parseRss(data) {
     populateEpisodes(items);
 }
 
-function fetchRss(url) {
+function fetchRss(rssUrl) {
     clearEpisodes();
-    fetch(url)
+    fetch(rssUrl)
         .then((response) => response.text())
         .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
         .then((data) => parseRss(data));
@@ -137,15 +137,15 @@ function populatePodcasts(data) {
         });
     });
 }
-const url = "https://itunes.apple.com/search?media=podcast&term=";
+const itunesSearchUrl = "https://itunes.apple.com/search?media=podcast&term=";
 
 async function fetchMore(next) {
-    const response = await fetch(url + next);
+    const response = await fetch(itunesSearchUrl + next);
     return response.json();
 }
 
 async function fetchPodcasts(term) {
-    const response = await fetch(url + term);
+    const response = await fetch(itunesSearchUrl + term);
     return response.json();
 }
 
