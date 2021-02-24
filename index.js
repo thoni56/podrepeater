@@ -32,24 +32,39 @@ function clearEpisodes() {
     }
 }
 
-function populateEpisodes(items) {
-    for (const item of items) {
+function populateEpisodes(data) {
+    items = [].slice.call(data);
+    items.sort((a, b) => {
+        return (
+            a.getElementsByTagName("itunes:episode") >
+            b.getElementsByTagName("itunes:episode")
+        );
+    });
+    items.forEach((item) => {
         title = item.getElementsByTagName("title")[0].textContent;
         image = item
             .getElementsByTagName("itunes:image")[0]
             .getAttribute("href");
+        description = item.getElementsByTagName("itunes:subtitle")[0]
+            .textContent;
         let listElement = document.createElement("div");
-        listElement.className = "list-item";
-        listElement.innerHTML = `<figure class="image"><img src="${image}"></figure><li class="title is-size-5">${title}</li>`;
+        listElement.className = "card is-horizontal";
+        listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
+            ${image}
+            "></figure></div>
+            <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-4">
+            ${title}
+            </p><p class="subtitle is-6">
+            ${description}
+            </p></div></div></div>`;
         episodesList.appendChild(listElement);
-    }
+    });
     if (items.length > 0) {
         switchToEpisodes();
     }
 }
 
 function parseRss(data) {
-    console.log(data);
     const items = data.getElementsByTagName("item");
     clearEpisodes();
     populateEpisodes(items);
@@ -92,7 +107,9 @@ function populatePodcasts(data) {
                 ${match.feedUrl}
                 </a></p></div></div></div>`;
         podcastList.appendChild(cardElement);
-        cardElement.addEventListener("click", () => {
+        cardElement.addEventListener("click", (event) => {
+            podcastList.childNodes.forEach((p) => p.classList.remove("box"));
+            event.target.closest(".card").classList.add("box");
             fetchRss(match.feedUrl);
         });
     });
