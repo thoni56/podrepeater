@@ -21,11 +21,18 @@ tabs.forEach((tab) => {
 // Search
 const searchMatches = document.querySelector("#search-matches");
 
-function parseRss(url) {
+function parseRss(data) {
+    const items = data.querySelectorAll("item");
+    items.forEach((item) => {
+        console.log(item.querySelector("title").textContent);
+    });
+}
+
+function fetchRss(url) {
     fetch(url)
         .then((response) => response.text())
         .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then((data) => console.log(data));
+        .then((data) => parseRss(data));
 }
 
 function clearSearches() {
@@ -61,7 +68,7 @@ function populate(data) {
                 </a></p></div></div></div>`;
         searchMatches.appendChild(cardElement);
         cardElement.addEventListener("click", () => {
-            parseRss(match.feedUrl);
+            fetchRss(match.feedUrl);
         });
     });
 }
