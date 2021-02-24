@@ -20,9 +20,6 @@ tabs.forEach((tab) => {
 
 // Search
 const searchMatches = document.querySelector("#search-matches");
-const loadMore = document.querySelector("#load-more");
-let batch = 0;
-let searchTerm = "";
 
 function parseRss(url) {
     fetch(url)
@@ -67,25 +64,16 @@ function populate(data) {
             parseRss(match.feedUrl);
         });
     });
-
-    if (matches.length === 50) {
-        loadMore.classList.remove("is-hidden");
-        loadMore.addEventListener("click", handleLoadMore);
-    } else {
-        loadMore.removeEventListener("click", handleLoadMore);
-        loadMore.classList.add("is-hidden");
-    }
 }
-const urlBase = "https://itunes.apple.com/";
-const urlQuery = "search?media=podcast&term=";
+const url = "https://itunes.apple.com/search?media=podcast&term=";
 
 async function fetchMore(next) {
-    const response = await fetch(urlBase + next);
+    const response = await fetch(url + next);
     return response.json();
 }
 
 async function fetchPodcasts(term) {
-    const response = await fetch(urlBase + urlQuery + term);
+    const response = await fetch(url + term);
     return response.json();
 }
 
