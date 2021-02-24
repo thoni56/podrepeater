@@ -8,7 +8,6 @@ tabs.forEach((tab) => {
         tab.classList.add('is-active')
 
         const target = tab.dataset.target;
-        console.log(target);
         tabContentBoxes.forEach(box => {
             if (box.getAttribute('id') === target) {
                 box.classList.remove('is-hidden');
