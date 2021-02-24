@@ -2,21 +2,26 @@
 const tabs = document.querySelectorAll(".tabs li");
 const tabContentBoxes = document.querySelectorAll("#tab-content > div");
 
+function activateTab(id) {
+    tabs.forEach((tab) => {
+        if (tab.dataset.target === id) tab.classList.add("is-active");
+        else tab.classList.remove("is-active");
+    });
+    tabContentBoxes.forEach((box) => {
+        if (box.getAttribute("id") === id) box.classList.remove("is-hidden");
+        else box.classList.add("is-hidden");
+    });
+}
+
 tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-        tabs.forEach((item) => item.classList.remove("is-active"));
-        tab.classList.add("is-active");
-
-        const target = tab.dataset.target;
-        tabContentBoxes.forEach((box) => {
-            if (box.getAttribute("id") === target) {
-                box.classList.remove("is-hidden");
-            } else {
-                box.classList.add("is-hidden");
-            }
-        });
+        activateTab(tab.dataset.target);
     });
 });
+
+function switchToEpisodes() {
+    activateTab("episodes");
+}
 
 // List Episodes
 const episodesList = document.querySelector("#episodes");
@@ -29,6 +34,9 @@ function populateEpisodes(items) {
             <li class="title">${item.title}</li>`;
         episodesList.appendChild(cardElement);
     });
+    if (items.length > 0) {
+        switchToEpisodes();
+    }
 }
 
 function parseRss(data) {
