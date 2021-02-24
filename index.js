@@ -58,7 +58,7 @@ function populateEpisodes(data) {
         if (episodeType && episodeType.length > 0)
             episodeType = episodeType[0].textContent;
         else episodeType = '';
-        if (episode === '' && episodeType != '')
+        if (episode === '' && episodeType != '' && episodeType != 'full')
             episode = episodeType;
         let pubDate = item.getElementsByTagName("pubDate");
         pubDate = new Date(pubDate[0].innerHTML);
@@ -77,7 +77,7 @@ function populateEpisodes(data) {
             ${description}
             </p><p><span class="is-italic is-size-6">
             ${season}${episode}
-            </span><span>
+            </span><span style="float:right">
             ${formattedDate}
             </span></p></div></div></div>`;
         episodesList.appendChild(listElement);
