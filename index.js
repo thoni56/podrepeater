@@ -92,7 +92,8 @@ function populateEpisodes(data) {
             ${season}${episode}
             </span><span style="float:right">
             ${publicationDate}
-            </span></p></div></div></div>`;
+            </span></p></div></div></div>
+            <div class="button is-light"><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
         episodesList.appendChild(listElement);
     });
     if (items.length > 0) {
@@ -179,3 +180,7 @@ searchButton.addEventListener("click", () => {
 searchField.addEventListener("keyup", (e) => {
     if (e.key === "Enter") doSearch();
 });
+
+
+// The Playlist (there can only be one... for now)
+const playlist = []
