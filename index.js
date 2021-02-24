@@ -51,7 +51,7 @@ const searchButton = document.querySelector('#search-button')
 searchButton.addEventListener('click', () => { doSearch(); })
 searchField.addEventListener('keyup', (e) => { if (e.key === 'Enter') doSearch(); })
 function doSearch() {
-    const term = searchField.value;
+    const term = encodeURIComponent(searchField.value);
     fetchPodcasts(term).then(data => populate(data));
 }
 
