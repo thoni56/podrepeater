@@ -41,8 +41,8 @@ function populate(data) {
             t1 + match.artworkUrl100 +
             t2 + match.collectionName +
             t3 + match.artistName +
-            t4 + match.primaryGenreName +
-            t5;
+            t4 + match.primaryGenreName + ' (' + match.trackCount + ' episodes)'
+        t5;
         searchMatches.appendChild(listElement);
     })
 }
