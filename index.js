@@ -34,7 +34,11 @@ function clearEpisodes() {
 
 function populateEpisodes(data) {
     const items = [].slice.call(data);
-    items.reverse();
+    items.sort((a, b) => {
+        let aDate = new Date(a.getElementsByTagName("pubDate")[0].innerHTML);
+        let bDate = new Date(b.getElementsByTagName("pubDate")[0].innerHTML);
+        return aDate < bDate ? -1 : 1;
+    });
     console.log(items);
     items.forEach((item) => {
         const title = item.getElementsByTagName("title")[0].textContent;
@@ -75,7 +79,7 @@ function populateEpisodes(data) {
             ${title}
             </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
             ${description}
-            </p><p><span class="is-italic is-size-6">
+            </p><p><span class="is-italic is-size-6" style="float: left">
             ${season}${episode}
             </span><span style="float:right">
             ${formattedDate}
