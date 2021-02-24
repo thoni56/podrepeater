@@ -41,22 +41,33 @@ function populateEpisodes(data) {
         );
     });
     items.forEach((item) => {
-        title = item.getElementsByTagName("title")[0].textContent;
-        image = item
+        const title = item.getElementsByTagName("title")[0].textContent;
+        const image = item
             .getElementsByTagName("itunes:image")[0]
             .getAttribute("href");
-        description = item.getElementsByTagName("itunes:subtitle")[0]
-            .textContent;
-        let listElement = document.createElement("div");
+        let description = item.getElementsByTagName("itunes:subtitle");
+        if (description && description.length > 0)
+            description = description[0].textContent;
+        let season = item.getElementsByTagName("itunes:season");
+        if (season && season.length > 0)
+            season = "Season " + season[0].textContent + ":";
+        else season = null;
+        let episode = item.getElementsByTagName("itunes:episode");
+        if (episode && episode.length > 0)
+            episode = "Episode " + episode[0].textContent;
+        else episode = null;
+        const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
             ${image}
             "></figure></div>
-            <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-4">
+            <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-size-5">
             ${title}
-            </p><p class="subtitle is-6">
+            </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
             ${description}
-            </p></div></div></div>`;
+            </p><p><span class="is-italic is-size-7">
+            ${season}${episode}
+            </span></p></div></div></div>`;
         episodesList.appendChild(listElement);
     });
     if (items.length > 0) {
@@ -95,11 +106,11 @@ function populatePodcasts(data) {
         cardElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
                 ${match.artworkUrl100}
                 "></figure></div>
-                <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-4">
+                <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-size-4">
                 ${match.collectionName}
-                </p><p class="subtitle is-6">
+                </p><p class="subtitle is-size-6">
                 ${match.artistName}
-                </p></div><div class="content"><p><span class="is-italic px-2">
+                </p></div><div><p><span class="is-italic px-2">
                 ${match.primaryGenreName}
                 </span><span>
                 ${"(" + match.trackCount + " episodes)"}
