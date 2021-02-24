@@ -18,14 +18,23 @@ tabs.forEach((tab) => {
     });
 });
 
-// Search
-const searchMatches = document.querySelector("#search-matches");
+// List Episodes
+const episodesList = document.querySelector("#episodes");
+
+function populateEpisodes(items) {
+    items.forEach((item) => {
+        let cardElement = document.createElement("div");
+        cardElement.className = "list-item tags";
+        cardElement.innerHTML = `<span class='tag is-white'><i class="fas fa-database"></i></span> 
+            <li class="title">${item.title}</li>`;
+        episodesList.appendChild(cardElement);
+    });
+}
 
 function parseRss(data) {
+    console.log(data);
     const items = data.querySelectorAll("item");
-    items.forEach((item) => {
-        console.log(item.querySelector("title").textContent);
-    });
+    populateEpisodes(items);
 }
 
 function fetchRss(url) {
@@ -35,6 +44,9 @@ function fetchRss(url) {
         .then((data) => parseRss(data));
 }
 
+// Search for Podcasts
+const searchMatches = document.querySelector("#search-matches");
+
 function clearSearches() {
     batch = 0;
     while (searchMatches.firstChild) {
@@ -42,11 +54,7 @@ function clearSearches() {
     }
 }
 
-function handleLoadMore(data) {
-    fetchMore(data.next).then((data) => populate(data));
-}
-
-function populate(data) {
+function populatePodcasts(data) {
     const matches = data.results;
 
     matches.forEach((match) => {
@@ -88,7 +96,7 @@ function doSearch() {
     searchTerm = encodeURIComponent(searchField.value);
     fetchPodcasts(searchTerm).then((data) => {
         clearSearches();
-        populate(data);
+        populatePodcasts(data);
     });
 }
 
