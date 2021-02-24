@@ -32,6 +32,42 @@ function clearEpisodes() {
     }
 }
 
+function getPubDate(item) {
+    const pubDate = new Date(item.getElementsByTagName("pubDate")[0].innerHTML);
+    const formattedDate =
+        pubDate.getFullYear() + '-' +
+        (pubDate.getMonth() + 1).toString().padStart(2, '0') + '-' +
+        pubDate.getDate().toString().padStart(2, '0')
+    return formattedDate;
+}
+
+function getMetaData(item) {
+    const title = item.getElementsByTagName("title")[0].textContent;
+    const image = item
+        .getElementsByTagName("itunes:image")[0]
+        .getAttribute("href");
+    let description = item.getElementsByTagName("itunes:subtitle");
+    if (description && description.length > 0)
+        description = description[0].textContent;
+    else
+        description = "";
+    let season = item.getElementsByTagName("itunes:season");
+    if (season && season.length > 0)
+        season = "Season " + season[0].textContent + " : ";
+    else season = "";
+    let episode = item.getElementsByTagName("itunes:episode");
+    if (episode && episode.length > 0)
+        episode = "Episode " + episode[0].textContent;
+    else episode = "";
+    let episodeType = item.getElementsByTagName("itunes:episodeType");
+    if (episodeType && episodeType.length > 0)
+        episodeType = episodeType[0].textContent;
+    else episodeType = '';
+    if (episode === '' && episodeType != '' && episodeType != 'full')
+        episode = episodeType;
+    return { title, image, description, season, episode };
+}
+
 function populateEpisodes(data) {
     const items = [].slice.call(data);
     items.sort((a, b) => {
@@ -41,35 +77,8 @@ function populateEpisodes(data) {
     });
     console.log(items);
     items.forEach((item) => {
-        const title = item.getElementsByTagName("title")[0].textContent;
-        const image = item
-            .getElementsByTagName("itunes:image")[0]
-            .getAttribute("href");
-        let description = item.getElementsByTagName("itunes:subtitle");
-        if (description && description.length > 0)
-            description = description[0].textContent;
-        else
-            description = "";
-        let season = item.getElementsByTagName("itunes:season");
-        if (season && season.length > 0)
-            season = "Season " + season[0].textContent + " : ";
-        else season = "";
-        let episode = item.getElementsByTagName("itunes:episode");
-        if (episode && episode.length > 0)
-            episode = "Episode " + episode[0].textContent;
-        else episode = "";
-        let episodeType = item.getElementsByTagName("itunes:episodeType");
-        if (episodeType && episodeType.length > 0)
-            episodeType = episodeType[0].textContent;
-        else episodeType = '';
-        if (episode === '' && episodeType != '' && episodeType != 'full')
-            episode = episodeType;
-        let pubDate = item.getElementsByTagName("pubDate");
-        pubDate = new Date(pubDate[0].innerHTML);
-        const formattedDate =
-            pubDate.getFullYear() + '-' +
-            (pubDate.getMonth() + 1).toString().padStart(2, '0') + '-' +
-            pubDate.getDate().toString().padStart(2, '0')
+        const { title, image, description, season, episode } = getMetaData(item);
+        const publicationDate = getPubDate(item);
         const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
@@ -82,7 +91,7 @@ function populateEpisodes(data) {
             </p><p><span class="is-italic is-size-6" style="float: left">
             ${season}${episode}
             </span><span style="float:right">
-            ${formattedDate}
+            ${publicationDate}
             </span></p></div></div></div>`;
         episodesList.appendChild(listElement);
     });
