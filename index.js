@@ -33,7 +33,7 @@ function clearEpisodes() {
 }
 
 function getPubDate(item) {
-    const pubDate = new Date(item.datePublishedPretty);
+    const pubDate = new Date(item.datePublished * 1000);
     const formattedDate =
         pubDate.getFullYear() +
         "-" +
@@ -64,16 +64,18 @@ function populateEpisodes(data) {
         const publicationDate = getPubDate(item);
         const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
-        const episodeString = season
-            ? "Season " + season + " Episode " + episode
-            : "Episode " + episode;
+        const episodeString = episode
+            ? season
+                ? "Season " + season + " Episode " + episode
+                : "Episode " + episode
+            : "";
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
             ${image}
             "></figure></div>
             <div class="card-stacked"><div class="card-content"><p class="title is-size-5">
             ${title}
             </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
-            ${description.slice(100) + "..."}
+            ${description.substring(0, 100) + "..."}
             </p><p><span class="is-italic is-size-6" style="float: left">
             ${episodeString}
             </span><span style="float:right">
