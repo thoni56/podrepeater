@@ -23,6 +23,43 @@ function switchToEpisodes() {
     activateTab("episodes");
 }
 
+// Utilities
+
+function createCardForEpisode(item) {
+    const { title, image, description, season, episode } = getMetaData(item);
+    const publicationDate = getPubDate(item);
+    const episodeString = episode
+        ? season
+            ? "Season " + season + " Episode " + episode
+            : "Episode " + episode
+        : "";
+    const card = document.createElement("div");
+    card.className = "card is-horizontal";
+    card.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
+        ${image}
+        "></figure></div>
+        <div class="card-stacked"><div class="card-content"><p class="title is-size-5">
+        ${title}
+        </p><p class="subtitle is-size-6" style="margin-bottom:0 style="max-height:80px">
+        ${description.substring(0, 100) + "..."}
+        </p><p><span class="is-italic is-size-6" style="float: left">
+        ${episodeString}
+        </span><span style="float:right">
+        ${publicationDate}
+        </span></p></div></div>
+        <div class="button is-light"><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
+    return card;
+}
+
+// The Playlist
+
+// There can only be one... for now
+const playList = document.querySelector("#play-list");
+
+function addToPlaylist(item) {
+    playList.appendChild(createCardForEpisode(item));
+}
+
 // Fetch and List Episodes
 const episodesList = document.querySelector("#episode-list");
 
@@ -62,32 +99,30 @@ function populateEpisodes(data) {
             item
         );
         const publicationDate = getPubDate(item);
-        const listElement = document.createElement("div");
-        listElement.className = "card is-horizontal";
         const episodeString = episode
             ? season
                 ? "Season " + season + " Episode " + episode
                 : "Episode " + episode
             : "";
+        const listElement = document.createElement("div");
+        listElement.className = "card is-horizontal";
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
             ${image}
             "></figure></div>
             <div class="card-stacked"><div class="card-content"><p class="title is-size-5">
             ${title}
-            </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
+            </p><p class="subtitle is-size-6" style="margin-bottom:0 style="max-height:80px">
             ${description.substring(0, 100) + "..."}
             </p><p><span class="is-italic is-size-6" style="float: left">
             ${episodeString}
             </span><span style="float:right">
             ${publicationDate}
             </span></p></div></div>
-            <div class="button is-light" data-podcastid=
-            "${42}"
-            ><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
+            <div class="button is-light"><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
         episodesList.appendChild(listElement);
         const button = listElement.getElementsByClassName("button")[0];
         button.addEventListener("click", () => {
-            console.log(item.getElementsByTagName("guid")[0].innerHTML);
+            addToPlaylist(item);
         });
     });
     if (items.length > 0) {
@@ -188,6 +223,3 @@ searchButton.addEventListener("click", () => {
 searchField.addEventListener("keyup", (e) => {
     if (e.key === "Enter") doSearch();
 });
-
-// The Playlist (there can only be one... for now)
-const playlist = [];
