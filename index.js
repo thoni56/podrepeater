@@ -90,7 +90,7 @@ function populateEpisodes(data) {
             <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-size-5">
             ${title}
             </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
-            ${description}
+            ${description.slice(100) + "..."}
             </p><p><span class="is-italic is-size-6" style="float: left">
             ${season}${episode}
             </span><span style="float:right">
@@ -133,25 +133,25 @@ function clearSearches() {
 }
 
 function populatePodcasts(data) {
-    const matches = data.results;
+    const matches = data.feeds;
 
     matches.forEach((match) => {
         let cardElement = document.createElement("div");
         cardElement.className = "card is-horizontal";
         cardElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
-                ${match.artworkUrl100}
+                ${match.image}
                 "></figure></div>
-                <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-size-4">
-                ${match.collectionName}
+                <div class="card-stacked"><div class="card-content"><p class="title is-size-4">
+                ${match.title}
                 </p><p class="subtitle is-size-6">
-                ${match.artistName}
-                </p></div><div><p><span class="is-italic px-2">
-                ${match.primaryGenreName}
-                </span><span>
-                ${"(" + match.trackCount + " episodes)"}
-                </span><a href="${match.feedUrl}">
-                ${match.feedUrl}
-                </a></p></div></div></div>`;
+                ${match.description.substring(0, 110) + "..."}
+                </p><div><p><span class="is-italic px-2">
+                ${
+                    match.categories
+                        ? match.categories[Object.keys(match.categories)[0]]
+                        : ""
+                }
+                </span></p></div></div></div>`;
         podcastList.appendChild(cardElement);
         cardElement.addEventListener("click", (event) => {
             podcastList.childNodes.forEach((p) => p.classList.remove("box"));
@@ -160,20 +160,35 @@ function populatePodcasts(data) {
         });
     });
 }
-const searchUrl = "https://itunes.apple.com/search?media=podcast&term=";
+const searchUrl = "https://api.podcastindex.org/api/1.0/search/byterm?q=";
 
-async function fetchMore(next) {
-    const response = await fetch(searchUrl + next);
-    return response.json();
+function createHeaders() {
+    // From Podcast Index API example
+    let apiKey = env.PODCASTINDEX_KEY;
+    let apiSecret = env.PODCASTINDEX_SECRET;
+    // ======== Hash them to get the Authorization token ========
+    const apiHeaderTime = Math.floor(Date.now() / 1000);
+    const data4Hash = apiKey + apiSecret + apiHeaderTime;
+    const sha = sha1(data4Hash).toString();
+    return {
+        // not needed right now, maybe in future:  "Content-Type": "application/json",
+        "X-Auth-Date": apiHeaderTime.toString(),
+        "X-Auth-Key": apiKey,
+        Authorization: sha,
+        "User-Agent": "PodRepeater/0.0",
+    };
 }
 
 async function fetchPodcasts(term) {
-    const response = await fetch(searchUrl + term);
+    const response = await fetch(searchUrl + term, {
+        method: "get",
+        headers: createHeaders(),
+    });
     return response.json();
 }
 
 function doSearch() {
-    const searchTerm = encodeURIComponent(searchField.value);
+    const searchTerm = encodeURIComponent(searchField.value).replace(" ", "+");
     fetchPodcasts(searchTerm).then((data) => {
         clearSearches();
         populatePodcasts(data);
