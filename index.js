@@ -35,9 +35,11 @@ function clearEpisodes() {
 function getPubDate(item) {
     const pubDate = new Date(item.getElementsByTagName("pubDate")[0].innerHTML);
     const formattedDate =
-        pubDate.getFullYear() + '-' +
-        (pubDate.getMonth() + 1).toString().padStart(2, '0') + '-' +
-        pubDate.getDate().toString().padStart(2, '0')
+        pubDate.getFullYear() +
+        "-" +
+        (pubDate.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        pubDate.getDate().toString().padStart(2, "0");
     return formattedDate;
 }
 
@@ -49,8 +51,7 @@ function getMetaData(item) {
     let description = item.getElementsByTagName("itunes:subtitle");
     if (description && description.length > 0)
         description = description[0].textContent;
-    else
-        description = "";
+    else description = "";
     let season = item.getElementsByTagName("itunes:season");
     if (season && season.length > 0)
         season = "Season " + season[0].textContent + " : ";
@@ -62,8 +63,8 @@ function getMetaData(item) {
     let episodeType = item.getElementsByTagName("itunes:episodeType");
     if (episodeType && episodeType.length > 0)
         episodeType = episodeType[0].textContent;
-    else episodeType = '';
-    if (episode === '' && episodeType != '' && episodeType != 'full')
+    else episodeType = "";
+    if (episode === "" && episodeType != "" && episodeType != "full")
         episode = episodeType;
     return { title, image, description, season, episode };
 }
@@ -77,7 +78,9 @@ function populateEpisodes(data) {
     });
     console.log(items);
     items.forEach((item) => {
-        const { title, image, description, season, episode } = getMetaData(item);
+        const { title, image, description, season, episode } = getMetaData(
+            item
+        );
         const publicationDate = getPubDate(item);
         const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
@@ -97,9 +100,9 @@ function populateEpisodes(data) {
             "${42}"
             ><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
         episodesList.appendChild(listElement);
-        const button = listElement.getElementsByClassName('button')[0];
-        button.addEventListener('click', () => {
-            console.log(item.getElementsByTagName('guid')[0].innerHTML);
+        const button = listElement.getElementsByClassName("button")[0];
+        button.addEventListener("click", () => {
+            console.log(item.getElementsByTagName("guid")[0].innerHTML);
         });
     });
     if (items.length > 0) {
@@ -157,15 +160,15 @@ function populatePodcasts(data) {
         });
     });
 }
-const itunesSearchUrl = "https://itunes.apple.com/search?media=podcast&term=";
+const searchUrl = "https://itunes.apple.com/search?media=podcast&term=";
 
 async function fetchMore(next) {
-    const response = await fetch(itunesSearchUrl + next);
+    const response = await fetch(searchUrl + next);
     return response.json();
 }
 
 async function fetchPodcasts(term) {
-    const response = await fetch(itunesSearchUrl + term);
+    const response = await fetch(searchUrl + term);
     return response.json();
 }
 
@@ -187,6 +190,5 @@ searchField.addEventListener("keyup", (e) => {
     if (e.key === "Enter") doSearch();
 });
 
-
 // The Playlist (there can only be one... for now)
-const playlist = []
+const playlist = [];
