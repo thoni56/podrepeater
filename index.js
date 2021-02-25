@@ -93,8 +93,14 @@ function populateEpisodes(data) {
             </span><span style="float:right">
             ${publicationDate}
             </span></p></div></div></div>
-            <div class="button is-light"><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
+            <div class="button is-light" data-podcastid=
+            "${42}"
+            ><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
         episodesList.appendChild(listElement);
+        const button = listElement.getElementsByClassName('button')[0];
+        button.addEventListener('click', () => {
+            console.log(item.getElementsByTagName('guid')[0].innerHTML);
+        });
     });
     if (items.length > 0) {
         switchToEpisodes();
