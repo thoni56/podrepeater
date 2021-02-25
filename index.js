@@ -33,7 +33,7 @@ function clearEpisodes() {
 }
 
 function getPubDate(item) {
-    const pubDate = new Date(item.getElementsByTagName("pubDate")[0].innerHTML);
+    const pubDate = new Date(item.datePublishedPretty);
     const formattedDate =
         pubDate.getFullYear() +
         "-" +
@@ -44,39 +44,19 @@ function getPubDate(item) {
 }
 
 function getMetaData(item) {
-    const title = item.getElementsByTagName("title")[0].textContent;
-    const image = item
-        .getElementsByTagName("itunes:image")[0]
-        .getAttribute("href");
-    let description = item.getElementsByTagName("itunes:subtitle");
-    if (description && description.length > 0)
-        description = description[0].textContent;
-    else description = "";
-    let season = item.getElementsByTagName("itunes:season");
-    if (season && season.length > 0)
-        season = "Season " + season[0].textContent + " : ";
-    else season = "";
-    let episode = item.getElementsByTagName("itunes:episode");
-    if (episode && episode.length > 0)
-        episode = "Episode " + episode[0].textContent;
-    else episode = "";
-    let episodeType = item.getElementsByTagName("itunes:episodeType");
-    if (episodeType && episodeType.length > 0)
-        episodeType = episodeType[0].textContent;
-    else episodeType = "";
-    if (episode === "" && episodeType != "" && episodeType != "full")
-        episode = episodeType;
+    const title = item.title;
+    const image = item.image;
+    const description = item.description;
+    const season = item.season;
+    let episode = item.episode;
+    const episodeType = item.episodeType;
+    if (episodeType != "full") episode = episodeType;
     return { title, image, description, season, episode };
 }
 
 function populateEpisodes(data) {
-    const items = [].slice.call(data);
-    items.sort((a, b) => {
-        let aDate = new Date(a.getElementsByTagName("pubDate")[0].innerHTML);
-        let bDate = new Date(b.getElementsByTagName("pubDate")[0].innerHTML);
-        return aDate < bDate ? -1 : 1;
-    });
-    console.log(items);
+    const items = data.items;
+    items.reverse();
     items.forEach((item) => {
         const { title, image, description, season, episode } = getMetaData(
             item
@@ -84,18 +64,21 @@ function populateEpisodes(data) {
         const publicationDate = getPubDate(item);
         const listElement = document.createElement("div");
         listElement.className = "card is-horizontal";
+        const episodeString = season
+            ? "Season " + season + " Episode " + episode
+            : "Episode " + episode;
         listElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
             ${image}
             "></figure></div>
-            <div class="card-stacked"><div class="card-content"><div class="media-content"><p class="title is-size-5">
+            <div class="card-stacked"><div class="card-content"><p class="title is-size-5">
             ${title}
             </p><p class="subtitle is-size-6" style="margin-bottom:0.25rem">
             ${description.slice(100) + "..."}
             </p><p><span class="is-italic is-size-6" style="float: left">
-            ${season}${episode}
+            ${episodeString}
             </span><span style="float:right">
             ${publicationDate}
-            </span></p></div></div></div>
+            </span></p></div></div>
             <div class="button is-light" data-podcastid=
             "${42}"
             ><span class="icon has-text-success is-large"><i class="fas fa-2x fa-plus"></i></span></div>`;
@@ -110,19 +93,18 @@ function populateEpisodes(data) {
     }
 }
 
-function parseRss(data) {
-    const items = data.getElementsByTagName("item");
-    populateEpisodes(items);
-}
+const episodesUrl =
+    "https://api.podcastindex.org/api/1.0/episodes/byfeedid?id=";
 
-function fetchRss(rssUrl) {
+async function fetchEpisodes(id) {
     clearEpisodes();
-    fetch(rssUrl)
-        .then((response) => response.text())
-        .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then((data) => parseRss(data));
+    fetch(episodesUrl + id, {
+        method: "get",
+        headers: createHeaders(),
+    })
+        .then((response) => response.json())
+        .then((data) => populateEpisodes(data));
 }
-
 // Search and list Podcasts
 const podcastList = document.querySelector("#podcast-list");
 
@@ -139,7 +121,7 @@ function populatePodcasts(data) {
         let cardElement = document.createElement("div");
         cardElement.className = "card is-horizontal";
         cardElement.innerHTML = `<div class="card-image"><figure class="image is-square"><img src="
-                ${match.image}
+                ${match.artwork}
                 "></figure></div>
                 <div class="card-stacked"><div class="card-content"><p class="title is-size-4">
                 ${match.title}
@@ -150,13 +132,13 @@ function populatePodcasts(data) {
                     match.categories
                         ? match.categories[Object.keys(match.categories)[0]]
                         : ""
-                }
+                } (<a href="${episodesUrl}${match.id}">${match.id}</a>)
                 </span></p></div></div></div>`;
         podcastList.appendChild(cardElement);
         cardElement.addEventListener("click", (event) => {
             podcastList.childNodes.forEach((p) => p.classList.remove("box"));
             event.target.closest(".card").classList.add("box");
-            fetchRss(match.feedUrl);
+            fetchEpisodes(match.id);
         });
     });
 }
@@ -167,9 +149,9 @@ function createHeaders() {
     let apiKey = env.PODCASTINDEX_KEY;
     let apiSecret = env.PODCASTINDEX_SECRET;
     // ======== Hash them to get the Authorization token ========
-    const apiHeaderTime = Math.floor(Date.now() / 1000);
-    const data4Hash = apiKey + apiSecret + apiHeaderTime;
-    const sha = sha1(data4Hash).toString();
+    let apiHeaderTime = Math.floor(Date.now() / 1000);
+    const data2Hash = apiKey + apiSecret + apiHeaderTime;
+    const sha = sha1(data2Hash).toString();
     return {
         // not needed right now, maybe in future:  "Content-Type": "application/json",
         "X-Auth-Date": apiHeaderTime.toString(),
