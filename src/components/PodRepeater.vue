@@ -1,18 +1,12 @@
 <template>
-  <v-container>
-    <v-app>
-      <v-tabs icons-and-text grow>
-        <v-tab>Podcasts</v-tab>
-        <v-tab>Episodes</v-tab>
-        <v-tab>Repeats</v-tab>
-      </v-tabs>
-    </v-app>
-    <v-tabs-items>
-      <t-tabs-item>
-        <podcasts> </podcasts>
-      </t-tabs-item>
-    </v-tabs-items>
-  </v-container>
+  <v-app>
+    <v-tabs grow v-model="tab">
+      <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
+      <v-tab-item v-for="item in items" :key="item">
+        {{ item }}
+      </v-tab-item>
+    </v-tabs>
+  </v-app>
 </template>
 
 <script>
@@ -20,6 +14,12 @@ export default {
   name: "PodRepeater",
   props: {
     msg: String,
+  },
+  data() {
+    return {
+      tab: 0,
+      items: ["Podcasts", "Episodes", "Repeats"],
+    };
   },
 };
 </script>
