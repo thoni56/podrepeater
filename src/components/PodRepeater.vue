@@ -1,17 +1,26 @@
 <template>
   <v-app>
-    <v-tabs grow v-model="tab">
-      <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
-      <v-tab-item v-for="item in items" :key="item">
-        {{ item }}
-      </v-tab-item>
-    </v-tabs>
+    <v-container>
+      <v-tabs grow v-model="tab">
+        <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="item in items" :key="item">
+          <Podcasts />
+        </v-tab-item>
+      </v-tabs-items>
+    </v-container>
   </v-app>
 </template>
 
 <script>
+import Podcasts from "./Podcasts.vue";
+
 export default {
   name: "PodRepeater",
+  components: {
+    Podcasts,
+  },
   props: {
     msg: String,
   },
