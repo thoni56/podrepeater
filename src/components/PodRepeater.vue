@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <v-tabs icons-and-text>
-      <v-tab>Playlist<v-icon>mdi-list</v-icon></v-tab>
-      <v-tab>Episodes</v-tab>
+    <v-tabs icons-and-text :grow="grow">
       <v-tab>Podcasts</v-tab>
+      <v-tab>Episodes</v-tab>
+      <v-tab>Repeats</v-tab>
     </v-tabs>
   </v-app>
 </template>
