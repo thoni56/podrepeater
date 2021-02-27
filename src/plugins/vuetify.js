@@ -3,6 +3,8 @@ import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import sv from "vuetify/lib/locale/sv";
 
+Vue.config.devtools = true;
+
 Vue.use(Vuetify);
 
 export default new Vuetify({
