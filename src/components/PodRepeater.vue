@@ -5,9 +5,9 @@
         <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in items" :key="item">
-          <Podcasts />
-        </v-tab-item>
+        <v-tab-item :key="Podcasts"> <Podcasts /> </v-tab-item>
+        <v-tab-item :key="Episodes"> <Episodes /> </v-tab-item>
+        <v-tab-item :key="Repeats"> <Repeats /> </v-tab-item>
       </v-tabs-items>
     </v-container>
   </v-app>
@@ -15,11 +15,15 @@
 
 <script>
 import Podcasts from "./Podcasts.vue";
+import Episodes from "./Episodes.vue";
+import Repeats from "./Repeats.vue";
 
 export default {
   name: "PodRepeater",
   components: {
     Podcasts,
+    Episodes,
+    Repeats,
   },
   props: {
     msg: String,
