@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <PodRepeater />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/PodRepeater.vue";
+import PodRepeater from "./components/PodRepeater.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    PodRepeater,
   },
 };
 </script>

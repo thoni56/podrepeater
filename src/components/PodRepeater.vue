@@ -1,16 +1,23 @@
 <template>
-  <v-app>
-    <v-tabs icons-and-text :grow="grow">
-      <v-tab>Podcasts</v-tab>
-      <v-tab>Episodes</v-tab>
-      <v-tab>Repeats</v-tab>
-    </v-tabs>
-  </v-app>
+  <v-container>
+    <v-app>
+      <v-tabs icons-and-text grow>
+        <v-tab>Podcasts</v-tab>
+        <v-tab>Episodes</v-tab>
+        <v-tab>Repeats</v-tab>
+      </v-tabs>
+    </v-app>
+    <v-tabs-items>
+      <t-tabs-item>
+        <podcasts> </podcasts>
+      </t-tabs-item>
+    </v-tabs-items>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "PodRepeater",
   props: {
     msg: String,
   },
