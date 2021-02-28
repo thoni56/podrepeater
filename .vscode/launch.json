@@ -10,6 +10,30 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:5500",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "vuejs: chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}/src",
+            "breakOnLoad": true,
+            "sourceMapPathOverrides": {
+                "webpack:///src/*": "${webRoot}/*"
+            }
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "vuejs: firefox",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}/src",
+            "pathMappings": [
+                {
+                    "url": "webpack:///src/",
+                    "path": "${webRoot}/"
+                }
+            ]
         }
     ]
 }
