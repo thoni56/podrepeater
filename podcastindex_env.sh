@@ -1,8 +1,8 @@
 #! /bin/sh
-cat > env.js <<EOF
-const env = {
+cat > podcastindex_env.js <<EOF
+const podcastindex_env = {
     PODCASTINDEX_KEY:'$PODCASTINDEX_KEY',
     PODCASTINDEX_SECRET:'$PODCASTINDEX_SECRET'
 };
-module.exports = { env };
+module.exports = { podcastindex_env };
 EOF
