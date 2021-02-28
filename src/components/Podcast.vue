@@ -26,7 +26,7 @@ export default {
   props: { podcastItem: {} },
   methods: {
     select: function() {
-      console.log(this.podcastItem.title);
+      this.$emit("selected", this.podcastItem.id);
     },
     truncatedDescription() {
       return this.podcastItem.description.substring(0, 190) + "...";

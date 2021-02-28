@@ -15,7 +15,12 @@
       </v-container>
     </v-card>
     <v-container>
-      <Podcast v-for="p in podcasts" :key="p.id" :podcastItem="p" />
+      <Podcast
+        v-for="p in podcasts"
+        :key="p.id"
+        :podcastItem="p"
+        @selected="onSelected"
+      />
     </v-container>
   </v-container>
 </template>
@@ -48,6 +53,9 @@ export default {
         view.podcasts = [];
         populatePodcasts(data);
       });
+    },
+    onSelected: function(podcastId) {
+      this.$emit("selected", podcastId);
     },
   },
 };
