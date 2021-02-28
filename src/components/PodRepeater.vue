@@ -19,7 +19,6 @@ import Episodes from "./Episodes.vue";
 import Repeats from "./Repeats.vue";
 
 export default {
-  name: "PodRepeater",
   components: {
     Podcasts,
     Episodes,

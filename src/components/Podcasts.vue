@@ -24,7 +24,6 @@
 import Podcast from "./Podcast.vue";
 
 export default {
-  name: "Podcasts",
   components: {
     Podcast,
   },
