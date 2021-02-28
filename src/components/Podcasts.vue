@@ -22,24 +22,24 @@
 
 <script>
 import Podcast from "./Podcast.vue";
+import PodcastItem from "../classes/PodcastItem.js";
 
 export default {
   components: {
     Podcast,
   },
-  data: function () {
+  data: function() {
     return {
       searchString: "",
       podcasts: [],
     };
   },
   methods: {
-    doSearch: function () {
-      this.podcasts.push(new Podcast());
+    doSearch: function() {
+      this.podcasts.push(new PodcastItem());
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
