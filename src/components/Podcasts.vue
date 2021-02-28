@@ -15,7 +15,7 @@
       </v-container>
     </v-card>
     <v-container>
-      <Podcast v-for="p in podcasts" :key="p.title" :podcastItem="p" />
+      <Podcast v-for="p in podcasts" :key="p.id" :podcastItem="p" />
     </v-container>
   </v-container>
 </template>
