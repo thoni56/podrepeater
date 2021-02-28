@@ -5,9 +5,9 @@
         <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item :key="Podcasts"> <Podcasts /> </v-tab-item>
-        <v-tab-item :key="Episodes"> <Episodes /> </v-tab-item>
-        <v-tab-item :key="Repeats"> <Repeats /> </v-tab-item>
+        <v-tab-item v-for="item in items" :key="item">
+          <component v-bind:is="item" />
+        </v-tab-item>
       </v-tabs-items>
     </v-container>
   </v-app>
