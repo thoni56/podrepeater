@@ -15,7 +15,7 @@
       </v-container>
     </v-card>
     <v-container>
-      <Podcast v-for="p in podcasts" :key="p" />
+      <Podcast v-for="p in podcasts" :key="p.getTitle()" :podcastItem="p" />
     </v-container>
   </v-container>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     doSearch: function() {
-      this.podcasts.push(new PodcastItem());
+      this.podcasts.push(new PodcastItem(this.searchString));
     },
   },
 };
