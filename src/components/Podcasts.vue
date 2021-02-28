@@ -15,7 +15,7 @@
       </v-container>
     </v-card>
     <v-container>
-      <Podcast v-for="p in podcasts" :key="p.getTitle()" :podcastItem="p" />
+      <Podcast v-for="p in podcasts" :key="p.title" :podcastItem="p" />
     </v-container>
   </v-container>
 </template>
@@ -25,6 +25,8 @@ import Podcast from "./Podcast.vue";
 import PodcastItem from "../classes/PodcastItem.js";
 import { PodcastIndexEnv } from "../../podcastindex_env.js";
 import sha1 from "sha1";
+
+let view = this;
 
 export default {
   components: {
@@ -42,8 +44,9 @@ export default {
         this.searchString.replace(" ", "+")
       );
       fetchPodcasts(searchTerm).then((data) => {
-        this.podcasts = [];
-        populatePodcasts(this.podcasts, data);
+        view = this;
+        view.podcasts = [];
+        populatePodcasts(data);
       });
     },
   },
@@ -51,12 +54,11 @@ export default {
 
 const searchUrl = "https://api.podcastindex.org/api/1.0/search/byterm?q=";
 
-function populatePodcasts(podcasts, data) {
+function populatePodcasts(data) {
   const matches = data.feeds;
-
-  matches.forEach((match) => {
-    podcasts.push(new PodcastItem(match));
-  });
+  for (const value of matches.values()) {
+    view.podcasts.push(new PodcastItem(value));
+  }
 }
 
 function createHeaders() {
