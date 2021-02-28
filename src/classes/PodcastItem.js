@@ -1,6 +1,6 @@
 module.exports = class PodcastItem {
-  constructor(title) {
-    this.title = title;
+  constructor(item) {
+    this.title = item.title;
   }
 
   getTitle() {

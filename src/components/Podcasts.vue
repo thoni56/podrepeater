@@ -23,6 +23,8 @@
 <script>
 import Podcast from "./Podcast.vue";
 import PodcastItem from "../classes/PodcastItem.js";
+import { PodcastIndexEnv } from "../../podcastindex_env.js";
+import sha1 from "sha1";
 
 export default {
   components: {
@@ -36,10 +38,51 @@ export default {
   },
   methods: {
     doSearch: function() {
-      this.podcasts.push(new PodcastItem(this.searchString));
+      const searchTerm = encodeURIComponent(
+        this.searchString.replace(" ", "+")
+      );
+      fetchPodcasts(searchTerm).then((data) => {
+        this.podcasts = [];
+        populatePodcasts(this.podcasts, data);
+      });
     },
   },
 };
+
+const searchUrl = "https://api.podcastindex.org/api/1.0/search/byterm?q=";
+
+function populatePodcasts(podcasts, data) {
+  const matches = data.feeds;
+
+  matches.forEach((match) => {
+    podcasts.push(new PodcastItem(match));
+  });
+}
+
+function createHeaders() {
+  // From Podcast Index API example
+  let apiKey = PodcastIndexEnv.PODCASTINDEX_KEY;
+  let apiSecret = PodcastIndexEnv.PODCASTINDEX_SECRET;
+  // ======== Hash them to get the Authorization token ========
+  let apiHeaderTime = Math.floor(Date.now() / 1000);
+  const data2Hash = apiKey + apiSecret + apiHeaderTime;
+  const sha = sha1(data2Hash).toString();
+  return {
+    // not needed right now, maybe in future:  "Content-Type": "application/json",
+    "X-Auth-Date": apiHeaderTime.toString(),
+    "X-Auth-Key": apiKey,
+    Authorization: sha,
+    "User-Agent": "PodRepeater/0.0",
+  };
+}
+
+async function fetchPodcasts(term) {
+  const response = await fetch(searchUrl + term, {
+    method: "get",
+    headers: createHeaders(),
+  });
+  return response.json();
+}
 </script>
 
 <style></style>
