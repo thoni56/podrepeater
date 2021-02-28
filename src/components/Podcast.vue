@@ -1,12 +1,21 @@
 <template>
-  <v-card>
+  <v-card v-on:click="select">
     <div class="d-flex no-wrap">
       <v-avatar tile class="ma-1" size="125">
         <v-img :src="podcastItem.image"> </v-img>
       </v-avatar>
-      <div class="text-left" v-on:click="read">
+      <div class="text-left">
         <v-card-title class="pt-0">{{ podcastItem.title }}</v-card-title>
         <v-card-subtitle> {{ truncatedDescription() }}</v-card-subtitle>
+        <v-card-text>
+          <span
+            style="font-style: italic;"
+            v-for="category in podcastItem.categories"
+            :key="category"
+          >
+            {{ category }},
+          </span>
+        </v-card-text>
       </div>
     </div>
   </v-card>
@@ -16,7 +25,7 @@
 export default {
   props: { podcastItem: {} },
   methods: {
-    read: function() {
+    select: function() {
       console.log(this.podcastItem.title);
     },
     truncatedDescription() {
