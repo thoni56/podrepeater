@@ -14,10 +14,13 @@
 
 <script>
 export default {
-  props: { episodeItem: {} },
+  props: { episodeItem: {}, repeats: {} },
   methods: {
     truncatedDescription() {
       return this.episodeItem.description.substring(0, 190) + "...";
+    },
+    select() {
+      this.$emit("selected", this.episodeItem.id);
     },
   },
 };

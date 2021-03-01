@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <v-container>
-      <Episode v-for="e in episodes" :key="e.id" :episodeItem="e" />
+      <Episode
+        v-for="e in episodes"
+        :key="e.id"
+        :episodeItem="e"
+        @selected="onSelected"
+      />
     </v-container>
   </v-container>
 </template>
@@ -30,6 +35,9 @@ export default {
         view.episodes = [];
         populateEpisodes(data);
       });
+    },
+    onSelected: function(episodeId) {
+      this.$emit("episode-selected", episodeId);
     },
   },
 };

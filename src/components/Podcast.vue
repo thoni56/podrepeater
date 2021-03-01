@@ -23,7 +23,9 @@
 
 <script>
 export default {
-  props: { podcastItem: {} },
+  props: {
+    podcastItem: {},
+  },
   methods: {
     select: function() {
       this.$emit("selected", this.podcastItem.id);
