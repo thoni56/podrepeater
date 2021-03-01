@@ -6,7 +6,7 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
-          <component v-bind:is="item" @selected="onSelected" />
+          <component v-bind:is="item" @selected="onSelected" ref="tab" />
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -36,7 +36,7 @@ export default {
   methods: {
     onSelected: function(podcastId) {
       this.tab = 1; // Episodes
-      console.log(podcastId);
+      this.$refs.tab[1].populate(podcastId);
     },
   },
 };
