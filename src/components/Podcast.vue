@@ -6,7 +6,7 @@
       </v-avatar>
       <div class="text-left">
         <v-card-title class="pt-0">{{ podcastItem.title }}</v-card-title>
-        <v-card-subtitle> {{ truncatedDescription() }}</v-card-subtitle>
+        <v-card-subtitle> {{ podcastItem.author }}</v-card-subtitle>
         <v-card-text>
           <span
             style="font-style: italic;"
