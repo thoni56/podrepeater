@@ -63,9 +63,9 @@ export default {
 const searchUrl = "https://api.podcastindex.org/api/1.0/search/byterm?q=";
 
 function populatePodcasts(data) {
-  const matches = data.feeds;
-  for (const value of matches.values()) {
-    view.podcasts.push(new PodcastItem(value));
+  const feeds = data.feeds;
+  for (const feed of feeds.values()) {
+    view.podcasts.push(new PodcastItem(feed));
   }
 }
 
