@@ -1,5 +1,5 @@
 <template>
-  <v-card v-on:click="select">
+  <v-card v-on:click="select" max-height="133">
     <div class="d-flex no-wrap">
       <v-avatar tile class="ma-1" size="125">
         <v-img :src="podcastItem.image"> </v-img>
