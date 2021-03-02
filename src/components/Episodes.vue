@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <v-card>
+      <Podcast :podcastItem="podcastItem" />
+    </v-card>
+
     <v-container>
       <Episode
         v-for="e in episodes"
@@ -12,6 +16,7 @@
 </template>
 
 <script>
+import Podcast from "./Podcast.vue";
 import Episode from "./Episode.vue";
 import EpisodeItem from "../classes/EpisodeItem.js";
 import { PodcastIndexEnv } from "../../podcastindex_env.js";
@@ -20,7 +25,11 @@ import sha1 from "sha1";
 let view = this;
 
 export default {
+  props: {
+    podcastItem: {},
+  },
   components: {
+    Podcast,
     Episode,
   },
   data: function() {
@@ -28,9 +37,12 @@ export default {
       episodes: [],
     };
   },
+  updated: function() {
+    this.populate(this.podcastItem);
+  },
   methods: {
-    populate: function(id) {
-      fetchEpisodes(id).then((data) => {
+    populate: function(podcastItem) {
+      fetchEpisodes(podcastItem.id).then((data) => {
         view = this;
         view.episodes = [];
         populateEpisodes(data);
