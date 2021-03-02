@@ -54,8 +54,8 @@ export default {
         populatePodcasts(data);
       });
     },
-    onSelected: function(podcastId) {
-      this.$emit("podcast-selected", podcastId);
+    onSelected: function(podcastItem) {
+      this.$emit("podcast-selected", podcastItem);
     },
   },
 };

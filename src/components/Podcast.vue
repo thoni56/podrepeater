@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     select: function() {
-      this.$emit("selected", this.podcastItem.id);
+      this.$emit("selected", this.podcastItem);
     },
     truncatedDescription() {
       return this.podcastItem.description.substring(0, 190) + "...";

@@ -52,9 +52,9 @@ export default {
     },
   },
   methods: {
-    onPodcastSelected: function(podcastId) {
+    onPodcastSelected: function(podcastItem) {
       this.tab = 1; // Episodes
-      this.$refs.tab[1].populate(podcastId);
+      this.selectedPodcastItem = podcastItem;
     },
     onEpisodeSelected: function(episodeId) {
       console.log(episodeId);
