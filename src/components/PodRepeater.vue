@@ -6,7 +6,7 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item key="Podcasts">
-          <Podcasts @podcast-selected="onPodcastSelected" ref="podcasts" />
+          <Podcasts ref="podcasts" @podcast-selected="onPodcastSelected" />
         </v-tab-item>
         <v-tab-item key="Episodes">
           <Episodes
@@ -53,11 +53,14 @@ export default {
   },
   methods: {
     onPodcastSelected: function(podcastItem) {
-      this.tab = 1; // Episodes
+      this.setTab(1); // Episodes
       this.selectedPodcastItem = podcastItem;
     },
     onEpisodeSelected: function(episodeId) {
       console.log(episodeId);
+    },
+    setTab: function(id) {
+      this.tab = id;
     },
   },
 };
