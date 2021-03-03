@@ -18,8 +18,8 @@ export default {
     repeats: { type: Array, default: () => [] }
   },
   methods: {
-    unselectEpisode() {
-      console.log("Episode unselected");
+    unselectEpisode(episodeItem) {
+      this.$emit("episode-unselected", episodeItem);
     }
   }
 };

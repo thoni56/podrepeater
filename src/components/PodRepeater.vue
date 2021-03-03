@@ -15,7 +15,10 @@
           />
         </v-tab-item>
         <v-tab-item key="Repeats">
-          <Repeats :repeats="repeats" />
+          <Repeats
+            :repeats="repeats"
+            @episode-unselected="onEpisodeUnselected"
+          />
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -60,6 +63,12 @@ export default {
       this.currentRepeats.push(episodeItem);
       this.setTab(2); // Repeats tab
       console.log(episodeItem);
+    },
+    onEpisodeUnselected: function(episodeItem) {
+      const index = this.currentRepeats.indexOf(episodeItem);
+      if (index > -1) {
+        this.currentRepeats.splice(index, 1);
+      }
     },
     setTab: function(id) {
       this.tab = id;
