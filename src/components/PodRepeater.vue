@@ -61,7 +61,6 @@ export default {
     onEpisodeSelected(episodeItem) {
       this.currentRepeats.push(episodeItem);
       this.setTab(2); // Repeats tab
-      console.log(episodeItem);
     },
     onEpisodeUnselected(episodeItem) {
       const index = this.currentRepeats.indexOf(episodeItem);
