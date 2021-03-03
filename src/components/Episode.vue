@@ -1,24 +1,21 @@
 <template>
-  <v-card elevation="5">
-    <div class="d-flex flex-no-wrap">
-      <v-avatar tile class="ma-1" size="125">
-        <v-img :src="episodeItem.image"> </v-img>
-      </v-avatar>
-      <div class="text-left">
-        <v-card-title class="pt-0">
-          <div class="headerClass">
-            {{ episodeItem.title }}
-          </div>
-        </v-card-title>
-        <v-card-subtitle v-html="episodeItem.description"></v-card-subtitle>
-        <v-card-actions>
-          <v-btn class="ml-2 mt-3" fab icon height="40px" right width="40px">
-            <v-icon>mdi-play</v-icon>
-          </v-btn></v-card-actions
-        >
-      </div>
-    </div>
-  </v-card>
+  <v-list-item three-line ripple class="text-left">
+    <v-list-item-avatar tile class="ma-1" size="125">
+      <v-img :src="episodeItem.image"> </v-img>
+    </v-list-item-avatar>
+    <v-list-item-content class="pt-0">
+      <v-list-item-title>
+        {{ episodeItem.title }}
+      </v-list-item-title>
+      <v-list-item-subtitle v-html="episodeItem.description">
+      </v-list-item-subtitle>
+    </v-list-item-content>
+    <v-list-item-action>
+      <v-btn class="ml-0" fab height="30px" right width="30px" @click="select">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-list-item-action>
+  </v-list-item>
 </template>
 
 <script>
