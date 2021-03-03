@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-container>
-      <v-tabs grow v-model="tab">
+      <v-tabs v-model="tab" grow>
         <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
@@ -10,9 +10,9 @@
         </v-tab-item>
         <v-tab-item key="Episodes">
           <Episodes
-            @episode-selected="onEpisodeSelected"
-            :podcastItem="podcastItem"
             ref="episodes"
+            :podcastItem="podcastItem"
+            @episode-selected="onEpisodeSelected"
           />
         </v-tab-item>
         <v-tab-item key="Repeats">
@@ -36,7 +36,7 @@ export default {
     Repeats,
   },
   props: {
-    msg: String,
+    msg: { type: String, default: "" },
   },
   data() {
     return {
