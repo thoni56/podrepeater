@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card elevation="5">
       <v-card-title>Podcasts</v-card-title>
       <v-container>
         <v-text-field
