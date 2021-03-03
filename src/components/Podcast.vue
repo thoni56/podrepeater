@@ -1,5 +1,5 @@
 <template>
-  <v-card v-on:click="select" max-height="133">
+  <v-card max-height="133" @click="select">
     <div class="d-flex no-wrap">
       <v-avatar tile class="ma-1" size="125">
         <v-img :src="podcastItem.image"> </v-img>
@@ -9,9 +9,9 @@
         <v-card-subtitle> {{ podcastItem.author }}</v-card-subtitle>
         <v-card-text>
           <span
-            style="font-style: italic;"
             v-for="category in podcastItem.categories"
             :key="category"
+            style="font-style: italic;"
           >
             {{ category }},
           </span>
@@ -22,16 +22,15 @@
 </template>
 
 <script>
+import PodcastItem from "../classes/PodcastItem";
+
 export default {
   props: {
-    podcastItem: {},
+    podcastItem: { type: PodcastItem, default: null },
   },
   methods: {
     select: function() {
       this.$emit("selected", this.podcastItem);
-    },
-    truncatedDescription() {
-      return this.podcastItem.description.substring(0, 190) + "...";
     },
   },
 };
