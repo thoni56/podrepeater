@@ -33,7 +33,7 @@ export default {
   props: {
     podcastItem: { type: PodcastItem, default: null }
   },
-  data: function() {
+  data() {
     return {
       episodes: []
     };
@@ -41,17 +41,18 @@ export default {
   mounted() {
     this.populate(this.podcastItem);
   },
+  updated() {
     this.populate(this.podcastItem);
   },
   methods: {
-    populate: function(podcastItem) {
+    populate(podcastItem) {
       fetchEpisodes(podcastItem.id).then(data => {
         view = this;
         view.episodes = [];
         populateEpisodes(data);
       });
     },
-    onSelected: function(episodeId) {
+    onSelected(episodeId) {
       this.$emit("episode-selected", episodeId);
     }
   }

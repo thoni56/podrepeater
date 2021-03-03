@@ -37,14 +37,14 @@ export default {
   components: {
     Podcast
   },
-  data: function() {
+  data() {
     return {
       searchString: "",
       podcasts: []
     };
   },
   methods: {
-    doSearch: function() {
+    doSearch() {
       const searchTerm = encodeURIComponent(
         this.searchString.replace(" ", "+")
       );
@@ -54,7 +54,7 @@ export default {
         populatePodcasts(data);
       });
     },
-    onSelected: function(podcastItem) {
+    onSelected(podcastItem) {
       this.$emit("podcast-selected", podcastItem);
     }
   }

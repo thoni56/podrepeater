@@ -54,23 +54,22 @@ export default {
     }
   },
   methods: {
-    onPodcastSelected: function(podcastItem) {
+    onPodcastSelected(podcastItem) {
       this.selectedPodcastItem = podcastItem;
       this.setTab(1); // Episodes tab
     },
-    onEpisodeSelected: function(episodeItem) {
-      console.log(this.tab);
+    onEpisodeSelected(episodeItem) {
       this.currentRepeats.push(episodeItem);
       this.setTab(2); // Repeats tab
       console.log(episodeItem);
     },
-    onEpisodeUnselected: function(episodeItem) {
+    onEpisodeUnselected(episodeItem) {
       const index = this.currentRepeats.indexOf(episodeItem);
       if (index > -1) {
         this.currentRepeats.splice(index, 1);
       }
     },
-    setTab: function(id) {
+    setTab(id) {
       this.tab = id;
     }
   }

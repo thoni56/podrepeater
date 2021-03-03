@@ -29,7 +29,7 @@ export default {
     podcastItem: { type: PodcastItem, default: null }
   },
   methods: {
-    select: function() {
+    select() {
       this.$emit("selected", this.podcastItem);
     }
   }
