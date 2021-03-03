@@ -4,14 +4,14 @@
       <Podcast :podcast-item="podcastItem" />
     </v-card>
 
-    <v-container>
+    <v-list>
       <Episode
         v-for="e in episodes"
         :key="e.id"
         :episode-item="e"
         @selected="onSelected"
       />
-    </v-container>
+    </v-list>
   </v-container>
 </template>
 

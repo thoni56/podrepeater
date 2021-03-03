@@ -1,11 +1,13 @@
 <template>
   <v-container>
-    <Episode
-      v-for="e in repeats"
-      :key="e.id"
-      :episode-item="e"
-      @selected="unselectEpisode"
-    />
+    <v-list>
+      <Episode
+        v-for="e in repeats"
+        :key="e.id"
+        :episode-item="e"
+        @selected="unselectEpisode"
+      />
+    </v-list>
   </v-container>
 </template>
 
