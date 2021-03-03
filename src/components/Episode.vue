@@ -20,7 +20,10 @@
 import EpisodeItem from "../classes/EpisodeItem.js";
 
 export default {
-  props: { episodeItem: EpisodeItem, repeats: {} },
+  props: {
+    episodeItem: EpisodeItem,
+    repeats: { type: [EpisodeItem], default: [] },
+  },
   methods: {
     truncatedDescription() {
       return this.episodeItem.description.substring(0, 190) + "...";
