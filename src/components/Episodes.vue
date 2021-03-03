@@ -38,7 +38,9 @@ export default {
       episodes: []
     };
   },
-  updated: function() {
+  mounted() {
+    this.populate(this.podcastItem);
+  },
     this.populate(this.podcastItem);
   },
   methods: {
