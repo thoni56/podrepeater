@@ -10,8 +10,8 @@ import PodRepeater from "./components/PodRepeater.vue";
 export default {
   name: "App",
   components: {
-    PodRepeater,
-  },
+    PodRepeater
+  }
 };
 </script>
 

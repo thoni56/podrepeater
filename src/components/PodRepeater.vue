@@ -10,7 +10,7 @@
         </v-tab-item>
         <v-tab-item key="Episodes">
           <Episodes
-            :podcastItem="podcastItem"
+            :podcast-item="podcastItem"
             @episode-selected="onEpisodeSelected"
           />
         </v-tab-item>
