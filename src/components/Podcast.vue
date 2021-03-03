@@ -26,13 +26,13 @@ import PodcastItem from "../classes/PodcastItem";
 
 export default {
   props: {
-    podcastItem: { type: PodcastItem, default: null },
+    podcastItem: { type: PodcastItem, default: null }
   },
   methods: {
     select: function() {
       this.$emit("selected", this.podcastItem);
-    },
-  },
+    }
+  }
 };
 </script>
 

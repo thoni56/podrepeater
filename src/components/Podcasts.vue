@@ -9,7 +9,7 @@
           single-line
           hide-details
           append-icon="search"
-          v-on:keyup.enter="doSearch"
+          @keyup.enter="doSearch"
         >
         </v-text-field>
       </v-container>
@@ -18,7 +18,7 @@
       <Podcast
         v-for="p in podcasts"
         :key="p.id"
-        :podcastItem="p"
+        :podcast-item="p"
         @selected="onSelected"
       />
     </v-container>
@@ -35,12 +35,12 @@ let view = this;
 
 export default {
   components: {
-    Podcast,
+    Podcast
   },
   data: function() {
     return {
       searchString: "",
-      podcasts: [],
+      podcasts: []
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
       const searchTerm = encodeURIComponent(
         this.searchString.replace(" ", "+")
       );
-      fetchPodcasts(searchTerm).then((data) => {
+      fetchPodcasts(searchTerm).then(data => {
         view = this;
         view.podcasts = [];
         populatePodcasts(data);
@@ -56,8 +56,8 @@ export default {
     },
     onSelected: function(podcastItem) {
       this.$emit("podcast-selected", podcastItem);
-    },
-  },
+    }
+  }
 };
 
 const searchUrl = "https://api.podcastindex.org/api/1.0/search/byterm?q=";
@@ -82,14 +82,14 @@ function createHeaders() {
     "X-Auth-Date": apiHeaderTime.toString(),
     "X-Auth-Key": apiKey,
     Authorization: sha,
-    "User-Agent": "PodRepeater/0.0",
+    "User-Agent": "PodRepeater/0.0"
   };
 }
 
 async function fetchPodcasts(term) {
   const response = await fetch(searchUrl + term, {
     method: "get",
-    headers: createHeaders(),
+    headers: createHeaders()
   });
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;

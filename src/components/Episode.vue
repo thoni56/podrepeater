@@ -21,17 +21,16 @@ import EpisodeItem from "../classes/EpisodeItem.js";
 
 export default {
   props: {
-    episodeItem: EpisodeItem,
-    repeats: { type: [EpisodeItem], default: [] },
+    episodeItem: EpisodeItem
   },
   methods: {
     truncatedDescription() {
       return this.episodeItem.description.substring(0, 190) + "...";
     },
     select() {
-      this.$emit("selected", this.episodeItem.id);
-    },
-  },
+      this.$emit("selected", this.episodeItem);
+    }
+  }
 };
 </script>
 

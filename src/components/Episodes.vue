@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <v-card>
-      <Podcast :podcastItem="podcastItem" />
+    <v-card v-if="podcastItem">
+      <Podcast :podcast-item="podcastItem" />
     </v-card>
 
     <v-container>
       <Episode
         v-for="e in episodes"
         :key="e.id"
-        :episodeItem="e"
+        :episode-item="e"
         @selected="onSelected"
       />
     </v-container>
@@ -17,6 +17,7 @@
 
 <script>
 import Podcast from "./Podcast.vue";
+import PodcastItem from "../classes/PodcastItem";
 import Episode from "./Episode.vue";
 import EpisodeItem from "../classes/EpisodeItem.js";
 import { PodcastIndexEnv } from "../../podcastindex_env.js";
@@ -25,16 +26,16 @@ import sha1 from "sha1";
 let view = this;
 
 export default {
-  props: {
-    podcastItem: {},
-  },
   components: {
     Podcast,
-    Episode,
+    Episode
+  },
+  props: {
+    podcastItem: { type: PodcastItem, default: null }
   },
   data: function() {
     return {
-      episodes: [],
+      episodes: []
     };
   },
   updated: function() {
@@ -42,7 +43,7 @@ export default {
   },
   methods: {
     populate: function(podcastItem) {
-      fetchEpisodes(podcastItem.id).then((data) => {
+      fetchEpisodes(podcastItem.id).then(data => {
         view = this;
         view.episodes = [];
         populateEpisodes(data);
@@ -50,8 +51,8 @@ export default {
     },
     onSelected: function(episodeId) {
       this.$emit("episode-selected", episodeId);
-    },
-  },
+    }
+  }
 };
 
 const episodesUrl =
@@ -78,14 +79,14 @@ function createHeaders() {
     "X-Auth-Date": apiHeaderTime.toString(),
     "X-Auth-Key": apiKey,
     Authorization: sha,
-    "User-Agent": "PodRepeater/0.0",
+    "User-Agent": "PodRepeater/0.0"
   };
 }
 
 async function fetchEpisodes(id) {
   const response = await fetch(episodesUrl + id, {
     method: "get",
-    headers: createHeaders(),
+    headers: createHeaders()
   });
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;

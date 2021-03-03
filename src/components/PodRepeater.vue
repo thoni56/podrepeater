@@ -6,17 +6,16 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item key="Podcasts">
-          <Podcasts ref="podcasts" @podcast-selected="onPodcastSelected" />
+          <Podcasts @podcast-selected="onPodcastSelected" />
         </v-tab-item>
         <v-tab-item key="Episodes">
           <Episodes
-            ref="episodes"
             :podcastItem="podcastItem"
             @episode-selected="onEpisodeSelected"
           />
         </v-tab-item>
         <v-tab-item key="Repeats">
-          <Repeats ref="repeats" />
+          <Repeats :repeats="repeats" />
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -33,36 +32,39 @@ export default {
   components: {
     Podcasts,
     Episodes,
-    Repeats,
-  },
-  props: {
-    msg: { type: String, default: "" },
+    Repeats
   },
   data() {
     return {
-      tab: 0,
+      tab: { type: Number, default: 0 },
       items: ["Podcasts", "Episodes", "Repeats"],
-      podcastId: 0,
       selectedPodcastItem: PodcastItem,
+      currentRepeats: []
     };
   },
   computed: {
     podcastItem() {
       return this.selectedPodcastItem;
     },
+    repeats() {
+      return this.currentRepeats;
+    }
   },
   methods: {
     onPodcastSelected: function(podcastItem) {
-      this.setTab(1); // Episodes
       this.selectedPodcastItem = podcastItem;
+      this.setTab(1); // Episodes tab
     },
-    onEpisodeSelected: function(episodeId) {
-      console.log(episodeId);
+    onEpisodeSelected: function(episodeItem) {
+      console.log(this.tab);
+      this.currentRepeats.push(episodeItem);
+      this.setTab(2); // Repeats tab
+      console.log(episodeItem);
     },
     setTab: function(id) {
       this.tab = id;
-    },
-  },
+    }
+  }
 };
 </script>
 
