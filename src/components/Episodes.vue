@@ -9,6 +9,7 @@
         v-for="e in episodes"
         :key="e.id"
         :episode-item="e"
+        action="add"
         @selected="onSelected"
       />
     </v-list>

@@ -8,12 +8,34 @@
         <v-list-item-title>
           {{ episodeItem.title }}
         </v-list-item-title>
-        <v-list-item-subtitle v-html="episodeItem.description">
+        <v-list-item-subtitle
+          style="margin-top:-20px"
+          v-html="episodeItem.description"
+        >
         </v-list-item-subtitle>
+        <div>
+          <span v-if="episodeItem.season" class="caption font-italic">
+            Season {{ episodeItem.season }}</span
+          >
+          <span v-if="episodeItem.episode" class="caption font-italic">
+            Episode {{ episodeItem.episode }}
+          </span>
+        </div>
       </v-list-item-content>
       <v-list-item-action>
-        <v-btn class="ml-0" fab height="30px" width="30px" @click="select">
-          <v-icon>mdi-plus</v-icon>
+        <v-btn class="mt-0 pt-0" fab height="30px" width="30px" @click="select">
+          <v-icon v-if="action == 'add'">mdi-plus</v-icon>
+          <v-icon v-if="action == 'remove'">mdi-minus</v-icon>
+        </v-btn>
+        <v-btn
+          v-if="action == 'remove'"
+          class="mt-1"
+          fab
+          height="30px"
+          width="30px"
+          @click="play"
+        >
+          <v-icon>mdi-play</v-icon>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
@@ -26,7 +48,8 @@ import EpisodeItem from "../classes/EpisodeItem.js";
 
 export default {
   props: {
-    episodeItem: EpisodeItem
+    episodeItem: EpisodeItem,
+    action: String
   },
   methods: {
     truncatedDescription() {
@@ -34,6 +57,9 @@ export default {
     },
     select() {
       this.$emit("selected", this.episodeItem);
+    },
+    play() {
+      console.log(this.episodeItem);
     }
   }
 };

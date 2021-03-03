@@ -5,6 +5,7 @@
         v-for="e in repeats"
         :key="e.id"
         :episode-item="e"
+        action="remove"
         @selected="unselectEpisode"
       />
     </v-list>
