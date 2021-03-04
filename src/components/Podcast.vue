@@ -4,9 +4,17 @@
       <v-avatar tile class="ma-1" size="125">
         <v-img :src="podcastItem.image"> </v-img>
       </v-avatar>
-      <div class="text-left">
-        <v-card-title class="pt-0">{{ podcastItem.title }}</v-card-title>
-        <v-card-subtitle> {{ podcastItem.author }}</v-card-subtitle>
+      <div class="text-left" style="min-width:0">
+        <v-card-title class="pt-0 ">
+          <div class="truncated">
+            {{ podcastItem.title }}
+          </div>
+        </v-card-title>
+        <v-card-subtitle>
+          <div class="truncated">
+            {{ podcastItem.author }}
+          </div>
+        </v-card-subtitle>
         <v-card-text>
           <span
             v-for="category in podcastItem.categories"
@@ -36,4 +44,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
