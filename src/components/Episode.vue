@@ -52,9 +52,6 @@ export default {
     action: String
   },
   methods: {
-    truncatedDescription() {
-      return this.episodeItem.description.substring(0, 190) + "...";
-    },
     select() {
       this.$emit("selected", this.episodeItem);
     },
@@ -66,7 +63,7 @@ export default {
 </script>
 
 <style>
-.headerClass {
+.truncated {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
