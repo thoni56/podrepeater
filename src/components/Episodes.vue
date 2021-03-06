@@ -53,8 +53,8 @@ export default {
         populateEpisodes(data);
       });
     },
-    onSelected(episodeId) {
-      this.$emit("episode-selected", episodeId);
+    onSelected(episodeItem) {
+      this.$emit("episode-selected", episodeItem);
     }
   }
 };
