@@ -10,11 +10,18 @@
             {{ podcastItem.title }}
           </div>
         </v-card-title>
-        <v-card-subtitle>
-          <div class="truncated">
-            {{ podcastItem.author }}
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-card-subtitle v-bind="attrs" v-on="on">
+              <div class="truncated">
+                {{ podcastItem.author }}
+              </div>
+            </v-card-subtitle>
+          </template>
+          <div class="text-left">
+            <span>{{ podcastItem.description }}</span>
           </div>
-        </v-card-subtitle>
+        </v-tooltip>
         <v-card-text>
           <span
             v-for="category in podcastItem.categories"

@@ -8,11 +8,20 @@
         <v-list-item-title>
           {{ episodeItem.title }}
         </v-list-item-title>
-        <v-list-item-subtitle
-          style="margin-top:-20px"
-          v-html="episodeItem.description"
-        >
-        </v-list-item-subtitle>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-list-item-subtitle
+              style="margin-top:-20px"
+              v-bind="attrs"
+              v-on="on"
+              v-html="episodeItem.description"
+            >
+            </v-list-item-subtitle>
+          </template>
+          <div class="text-left">
+            <span>{{ episodeItem.description }}</span>
+          </div>
+        </v-tooltip>
         <div>
           <span v-if="episodeItem.season" class="caption font-italic">
             Season {{ episodeItem.season }}</span
@@ -57,6 +66,8 @@ export default {
     },
     play() {
       console.log(this.episodeItem);
+      let audio = new Audio(this.episodeItem);
+      audio.play();
     }
   }
 };
