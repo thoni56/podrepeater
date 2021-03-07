@@ -37,6 +37,9 @@ export default {
     sortedEpisodes() {
       return [...this.episodes].sort((e1, e2) => {
         if (e1.season == e2.season) {
+          if (e1.episode == e2.episode) {
+            return compare(e1.published, e2.published);
+          }
           return compare(e1.episode, e2.episode);
         }
         return compare(e1.season, e2.season);
