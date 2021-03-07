@@ -76,14 +76,11 @@ export default {
     setTab(id) {
       this.tab = id;
     },
-    pushEpisode(episodeItem) {
-      this.episodes.push(episodeItem);
-    },
     populateEpisodes(podcastItem) {
       this.episodes.length = 0;
       fetchEpisodesFromPodcastIndex(podcastItem.id).then(data => {
         data.items.forEach(episode => {
-          this.pushEpisode(new EpisodeItem(episode));
+          this.episodes.push(new EpisodeItem(episode));
         });
       });
     }
