@@ -31,18 +31,8 @@ export default {
     Episode
   },
   props: {
-    podcastItem: { type: PodcastItem, default: null }
-  },
-  data() {
-    return {
-      episodes: []
-    };
-  },
-  mounted() {
-    this.populate(this.podcastItem);
-  },
-  updated() {
-    this.populate(this.podcastItem);
+    podcastItem: PodcastItem,
+    episodes: { type: Array, default: () => [] }
   },
   methods: {
     populate(podcastItem) {

@@ -10,6 +10,7 @@
         </v-tab-item>
         <v-tab-item key="Episodes">
           <Episodes
+            :episodes="episodes"
             :podcast-item="podcastItem"
             @episode-selected="onEpisodeSelected"
           />
@@ -30,6 +31,8 @@ import Podcasts from "./Podcasts.vue";
 import Episodes from "./Episodes.vue";
 import Repeats from "./Repeats.vue";
 import PodcastItem from "../classes/PodcastItem";
+import { fetchEpisodesFromPodcastIndex } from "../classes/PodcastIndex";
+import { EpisodeItem } from "../classes/EpisodeItem";
 
 export default {
   components: {
@@ -42,7 +45,8 @@ export default {
       tab: { type: Number, default: 0 },
       items: ["Podcasts", "Episodes", "Repeats"],
       selectedPodcastItem: PodcastItem,
-      currentRepeats: []
+      currentRepeats: [],
+      episodes: []
     };
   },
   computed: {
@@ -56,6 +60,7 @@ export default {
   methods: {
     onPodcastSelected(podcastItem) {
       this.selectedPodcastItem = podcastItem;
+      this.populateEpisodes(podcastItem);
       this.setTab(1); // Episodes tab
     },
     onEpisodeSelected(episodeItem) {
@@ -70,6 +75,17 @@ export default {
     },
     setTab(id) {
       this.tab = id;
+    },
+    pushEpisode(episodeItem) {
+      this.episodes.push(episodeItem);
+    },
+    populateEpisodes(podcastItem) {
+      this.episodes = [];
+      fetchEpisodesFromPodcastIndex(podcastItem.id).then(data => {
+        data.items.forEach(episode => {
+          this.pushEpisode(new EpisodeItem(episode));
+        });
+      });
     }
   }
 };
