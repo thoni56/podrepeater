@@ -65,31 +65,15 @@ export default {
   },
   data() {
     return {
-      audio: { type: String, default: "" },
       playing: { type: Boolean, default: false }
     };
-  },
-  mounted() {
-    this.audio = new Audio(this.episodeItem.audio);
-    this.audio.onended = this.ended;
-    this.playing = false;
   },
   methods: {
     select() {
       this.$emit("selected", this.episodeItem);
     },
     play() {
-      if (this.playing) {
-        this.playing = false;
-        this.audio.pause();
-      } else {
-        this.audio.play();
-        this.playing = true;
-      }
-    },
-    ended() {
-      this.$emit("ended", this.episodeItem.id);
-      this.playing = false;
+      this.$emit("play", this.episodeItem.id);
     },
     publishDate() {
       return new Date(this.episodeItem.published * 1000).toLocaleDateString();
