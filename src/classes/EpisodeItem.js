@@ -7,6 +7,7 @@ class EpisodeItem {
     this.season = item.season;
     this.episode = item.episode;
     this.episodeType = item.episodeType;
+    this.published = item.datePublished;
   }
 }
 
