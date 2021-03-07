@@ -58,7 +58,7 @@ import EpisodeItem from "../classes/EpisodeItem.js";
 export default {
   props: {
     episodeItem: EpisodeItem,
-    action: String
+    action: { type: String, default: "" }
   },
   methods: {
     select() {
