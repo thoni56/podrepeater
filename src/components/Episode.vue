@@ -46,7 +46,7 @@
           width="30px"
           @click="play"
         >
-          <v-icon v-if="playing">mdi-pause</v-icon>
+          <v-icon v-if="isPlaying">mdi-pause</v-icon>
           <v-icon v-else>mdi-play</v-icon>
         </v-btn>
       </v-list-item-action>
@@ -61,12 +61,14 @@ import EpisodeItem from "../classes/EpisodeItem.js";
 export default {
   props: {
     episodeItem: EpisodeItem,
-    action: { type: String, default: "" }
+    action: { type: String, default: "" },
+    playingEpisodeId: { type: Number, default: 0 },
+    playing: { type: Boolean, default: false }
   },
-  data() {
-    return {
-      playing: { type: Boolean, default: false }
-    };
+  computed: {
+    isPlaying() {
+      return this.playingEpisodeId == this.episodeItem.id && this.playing;
+    }
   },
   methods: {
     select() {
