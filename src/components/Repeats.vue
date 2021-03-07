@@ -32,14 +32,14 @@ export default {
     playNextEpisode() {
       const episode = this.$refs[playingEpisodeId];
       episode.playing = false;
-      const episodeItem = this.repeats.find(e => (e.id = playingEpisodeId));
+      const episodeItem = this.repeats.find(e => e.id == playingEpisodeId);
       const index = this.repeats.indexOf(episodeItem);
-      const next = index + (1 % this.repeats.length);
+      const next = (index + 1) % this.repeats.length;
       this.play(this.repeats[next].id);
     },
     play(id) {
       const episode = this.$refs[id];
-      const episodeItem = this.repeats.find(e => (e.id = id));
+      const episodeItem = this.repeats.find(e => e.id == id);
       playingEpisodeId = id;
       if (episode.playing) {
         episode.playing = false;
