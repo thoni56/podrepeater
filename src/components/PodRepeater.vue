@@ -80,7 +80,7 @@ export default {
       this.episodes.push(episodeItem);
     },
     populateEpisodes(podcastItem) {
-      this.episodes = [];
+      this.episodes.length = 0;
       fetchEpisodesFromPodcastIndex(podcastItem.id).then(data => {
         data.items.forEach(episode => {
           this.pushEpisode(new EpisodeItem(episode));
