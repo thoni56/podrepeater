@@ -50,6 +50,7 @@ export default {
       const episodeItem = this.repeats.find(e => e.id == this.playingEpisodeId);
       const index = this.repeats.indexOf(episodeItem);
       const next = (index + 1) % this.repeats.length;
+      this.playing = false;
       this.play(this.repeats[next].id);
     },
     play(id) {
@@ -73,7 +74,11 @@ export default {
       }
     },
     tick() {
-      this.progress = (audio.currentTime / audio.duration) * 100;
+      if (isNaN(audio.duration)) {
+        this.progress = 0;
+      } else {
+        this.progress = (audio.currentTime / audio.duration) * 100;
+      }
       setTimeout(this.tick, 200);
     }
   }
