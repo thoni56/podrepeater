@@ -70,18 +70,22 @@ export default {
   },
   mounted() {
     this.audio = new Audio(this.episodeItem.audio);
+    this.playing = false;
   },
   methods: {
     select() {
       this.$emit("selected", this.episodeItem);
     },
     play() {
-      if (!this.playing) {
-        this.audio.play();
-        this.playing = true;
-      } else {
+      if (this.playing) {
         this.playing = false;
         this.audio.pause();
+      } else {
+        this.audio.play();
+        this.audio.onended = function() {
+          this.$emit("ended", this.episodeItem);
+        };
+        this.playing = true;
       }
     },
     publishDate() {
