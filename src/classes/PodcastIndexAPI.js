@@ -20,7 +20,7 @@ const createHeaders = () => {
   };
 };
 
-async function fetchPodcastsFromPodcastIndex(term) {
+async function fetchPodcasts(term) {
   const response = await fetch(searchUrl + term, {
     method: "get",
     headers: createHeaders()
@@ -35,7 +35,7 @@ async function fetchPodcastsFromPodcastIndex(term) {
 const episodesUrl =
   "https://api.podcastindex.org/api/1.0/episodes/byfeedid?id=";
 
-async function fetchEpisodesFromPodcastIndex(id) {
+async function fetchEpisodes(id) {
   const response = await fetch(episodesUrl + id, {
     method: "get",
     headers: createHeaders()
@@ -47,4 +47,4 @@ async function fetchEpisodesFromPodcastIndex(id) {
   return response.json();
 }
 
-export { fetchPodcastsFromPodcastIndex, fetchEpisodesFromPodcastIndex };
+export { fetchPodcasts, fetchEpisodes };

@@ -28,7 +28,7 @@
 <script>
 import Podcast from "./Podcast.vue";
 import PodcastItem from "../classes/PodcastItem.js";
-import { fetchPodcastsFromPodcastIndex } from "../classes/PodcastIndex.js";
+import { fetchPodcasts } from "../classes/PodcastIndexAPI.js";
 
 let view = this;
 
@@ -47,7 +47,7 @@ export default {
       const searchTerm = encodeURIComponent(
         this.searchString.replace(" ", "+")
       );
-      fetchPodcastsFromPodcastIndex(searchTerm).then(data => {
+      fetchPodcasts(searchTerm).then(data => {
         view = this;
         view.podcasts.splice(0);
         populatePodcastsFromPodcastIndex(data);

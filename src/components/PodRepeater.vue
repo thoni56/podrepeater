@@ -31,7 +31,7 @@ import Podcasts from "./Podcasts.vue";
 import Episodes from "./Episodes.vue";
 import Repeats from "./Repeats.vue";
 import PodcastItem from "../classes/PodcastItem";
-import { fetchEpisodesFromPodcastIndex } from "../classes/PodcastIndex";
+import { fetchEpisodesFromPodcastIndex } from "../classes/PodcastIndexAPI";
 import { EpisodeItem } from "../classes/EpisodeItem";
 
 export default {
