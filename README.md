@@ -15,4 +15,7 @@ Of course, a work in progress.
 
 ## Implementation
 
-This is a pure Javascript app so you should be able to just load the `index.html` in your browser.
+This is currently implemented using _Vue_ and _Vuetify_.
+To start
+
+    npm run serve
