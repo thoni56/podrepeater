@@ -6,7 +6,7 @@
 
     <v-list>
       <Episode
-        v-for="e in episodes"
+        v-for="e in sortedEpisodes()"
         :key="e.id"
         :episode-item="e"
         action="add"
@@ -33,9 +33,26 @@ export default {
   methods: {
     onSelected(episodeItem) {
       this.$emit("episode-selected", episodeItem);
+    },
+    sortedEpisodes() {
+      return [...this.episodes].sort((e1, e2) => {
+        if (e1.season == e2.season) {
+          return compare(e1.episode, e2.episode);
+        }
+        return compare(e1.season, e2.season);
+      });
     }
   }
 };
+function compare(e1, e2) {
+  if (e1 < e2) {
+    return -1;
+  }
+  if (e1 < e2) {
+    return 1;
+  }
+  return 0;
+}
 </script>
 
 <style></style>
