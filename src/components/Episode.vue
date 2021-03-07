@@ -29,6 +29,7 @@
           <span v-if="episodeItem.episode" class="caption font-italic">
             Episode {{ episodeItem.episode }}
           </span>
+          <span class="caption" style="float:right">{{ publishDate() }}</span>
         </div>
       </v-list-item-content>
       <v-list-item-action>
@@ -68,6 +69,9 @@ export default {
       console.log(this.episodeItem);
       let audio = new Audio(this.episodeItem);
       audio.play();
+    },
+    publishDate() {
+      return new Date(this.episodeItem.published * 1000).toLocaleDateString();
     }
   }
 };
