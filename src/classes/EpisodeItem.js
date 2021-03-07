@@ -1,4 +1,4 @@
-module.exports = class EpisodeItem {
+class EpisodeItem {
   constructor(item) {
     this.id = item.id;
     this.title = item.title;
@@ -8,4 +8,6 @@ module.exports = class EpisodeItem {
     this.episode = item.episode;
     this.episodeType = item.episodeType;
   }
-};
+}
+
+module.exports = { EpisodeItem };
