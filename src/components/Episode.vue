@@ -24,12 +24,13 @@
         </v-tooltip>
         <div>
           <span v-if="episodeItem.season" class="caption font-italic">
-            Season {{ episodeItem.season }}</span
-          >
+            Season {{ episodeItem.season }}
+          </span>
           <span v-if="episodeItem.episode" class="caption font-italic">
             Episode {{ episodeItem.episode }}
           </span>
-          <span class="caption" style="float:right">{{ publishDate() }}</span>
+          <span class="caption">{{ publishDate() }}</span>
+          <span style="float:right">{{ duration() }}</span>
         </div>
       </v-list-item-content>
       <v-list-item-action>
@@ -87,11 +88,20 @@ export default {
       }
     },
     ended() {
-      this.$emit("ended", this.episodeItem);
+      this.$emit("ended", this.episodeItem.id);
       this.playing = false;
     },
     publishDate() {
       return new Date(this.episodeItem.published * 1000).toLocaleDateString();
+    },
+    duration() {
+      if (this.episodeItem.duration == 0) {
+        return "";
+      } else {
+        return new Date(this.episodeItem.duration * 1000)
+          .toISOString()
+          .substr(11, 8);
+      }
     }
   }
 };
