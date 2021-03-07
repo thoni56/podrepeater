@@ -1,9 +1,20 @@
 <template>
   <div>
     <v-list-item three-line ripple class="text-left">
-      <v-list-item-avatar tile class="ma-1" size="125">
-        <v-img :src="episodeItem.image"> </v-img>
-      </v-list-item-avatar>
+      <div>
+        <v-list-item-avatar tile class="ma-1" size="125">
+          <v-img :src="episodeItem.image"> </v-img>
+          <v-overlay :absolute="true" :opacity="0" :value="isPlaying">
+            <v-progress-circular
+              :value="progress"
+              size="80"
+              width="7"
+              color="red"
+              rotate="270"
+            ></v-progress-circular>
+          </v-overlay>
+        </v-list-item-avatar>
+      </div>
       <v-list-item-content class="pt-0">
         <v-list-item-title>
           {{ episodeItem.title }}
@@ -63,7 +74,8 @@ export default {
     episodeItem: EpisodeItem,
     action: { type: String, default: "" },
     playingEpisodeId: { type: Number, default: 0 },
-    playing: { type: Boolean, default: false }
+    playing: { type: Boolean, default: false },
+    progress: { type: Number, default: 0 }
   },
   computed: {
     isPlaying() {

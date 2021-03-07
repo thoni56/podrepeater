@@ -49,7 +49,7 @@ export default {
       );
       fetchPodcastsFromPodcastIndex(searchTerm).then(data => {
         view = this;
-        view.podcasts = [];
+        view.podcasts.splice(0);
         populatePodcastsFromPodcastIndex(data);
       });
     },
