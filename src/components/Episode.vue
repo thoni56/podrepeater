@@ -67,7 +67,7 @@ export default {
     },
     play() {
       console.log(this.episodeItem);
-      let audio = new Audio(this.episodeItem);
+      let audio = new Audio(this.episodeItem.audio);
       audio.play();
     },
     publishDate() {

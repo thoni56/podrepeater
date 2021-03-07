@@ -8,6 +8,7 @@ class EpisodeItem {
     this.episode = item.episode;
     this.episodeType = item.episodeType;
     this.published = item.datePublished;
+    this.audio = item.enclosureUrl;
   }
 }
 
