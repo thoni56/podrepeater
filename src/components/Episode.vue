@@ -45,7 +45,8 @@
           width="30px"
           @click="play"
         >
-          <v-icon>mdi-play</v-icon>
+          <v-icon v-if="playing">mdi-pause</v-icon>
+          <v-icon v-else>mdi-play</v-icon>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
@@ -61,14 +62,27 @@ export default {
     episodeItem: EpisodeItem,
     action: { type: String, default: "" }
   },
+  data() {
+    return {
+      audio: { type: String, default: "" },
+      playing: { type: Boolean, default: false }
+    };
+  },
+  mounted() {
+    this.audio = new Audio(this.episodeItem.audio);
+  },
   methods: {
     select() {
       this.$emit("selected", this.episodeItem);
     },
     play() {
-      console.log(this.episodeItem);
-      let audio = new Audio(this.episodeItem.audio);
-      audio.play();
+      if (!this.playing) {
+        this.audio.play();
+        this.playing = true;
+      } else {
+        this.playing = false;
+        this.audio.pause();
+      }
     },
     publishDate() {
       return new Date(this.episodeItem.published * 1000).toLocaleDateString();
