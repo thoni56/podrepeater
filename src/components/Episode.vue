@@ -70,6 +70,7 @@ export default {
   },
   mounted() {
     this.audio = new Audio(this.episodeItem.audio);
+    this.audio.onended = this.ended;
     this.playing = false;
   },
   methods: {
@@ -82,11 +83,12 @@ export default {
         this.audio.pause();
       } else {
         this.audio.play();
-        this.audio.onended = function() {
-          this.$emit("ended", this.episodeItem);
-        };
         this.playing = true;
       }
+    },
+    ended() {
+      this.$emit("ended", this.episodeItem);
+      this.playing = false;
     },
     publishDate() {
       return new Date(this.episodeItem.published * 1000).toLocaleDateString();
