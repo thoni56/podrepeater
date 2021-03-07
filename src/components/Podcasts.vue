@@ -28,7 +28,7 @@
 <script>
 import Podcast from "./Podcast.vue";
 import PodcastItem from "../classes/PodcastItem.js";
-import { fetchPodcasts } from "../classes/PodcastIndexAPI.js";
+import { fetchPodcasts } from "../classes/AppleAPI.js";
 
 let view = this;
 
@@ -47,10 +47,10 @@ export default {
       const searchTerm = encodeURIComponent(
         this.searchString.replace(" ", "+")
       );
-      fetchPodcasts(searchTerm).then(data => {
+      fetchPodcasts(searchTerm).then(items => {
         view = this;
-        view.podcasts.splice(0);
-        populatePodcastsFromPodcastIndex(data);
+        view.podcasts.splice(0); // Clear array in a Vue-compatible way
+        populatePodcasts(items);
       });
     },
     onSelected(podcastItem) {
@@ -59,8 +59,7 @@ export default {
   }
 };
 
-function populatePodcastsFromPodcastIndex(data) {
-  const feeds = data.feeds;
+function populatePodcasts(feeds) {
   for (const feed of feeds.values()) {
     view.podcasts.push(new PodcastItem(feed));
   }

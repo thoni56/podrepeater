@@ -1,4 +1,4 @@
-const searchUrl = "https://itunes.apple.com/search?term=";
+const searchUrl = "https://itunes.apple.com/search?media=podcast&term=";
 
 import { PodcastIndexEnv } from "../../podcastindex_env";
 import sha1 from "sha1";
@@ -26,9 +26,10 @@ async function fetchPodcasts(term) {
     const message = `An error has occured: ${response.status}`;
     throw new Error(message);
   }
-  return response.json();
+  return response.json().then(data => data.results);
 }
 
+// TODO Convert to read RSS-feeds for the id using Apple lookup(id)
 const episodesUrl =
   "https://api.podcastindex.org/api/1.0/episodes/byfeedid?id=";
 
