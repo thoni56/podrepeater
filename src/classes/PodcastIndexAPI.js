@@ -35,8 +35,8 @@ async function fetchPodcasts(term) {
 const episodesUrl =
   "https://api.podcastindex.org/api/1.0/episodes/byfeedid?id=";
 
-async function fetchEpisodes(id) {
-  const response = await fetch(episodesUrl + id, {
+async function fetchEpisodes(podcastItem) {
+  const response = await fetch(episodesUrl + podcastItem.id, {
     method: "get",
     headers: createHeaders()
   });

@@ -31,7 +31,7 @@ import Podcasts from "./Podcasts.vue";
 import Episodes from "./Episodes.vue";
 import Repeats from "./Repeats.vue";
 import PodcastItem from "../classes/PodcastItem";
-import { fetchEpisodesFromPodcastIndex } from "../classes/PodcastIndexAPI";
+import { fetchEpisodes } from "../classes/AppleAPI";
 import { EpisodeItem } from "../classes/EpisodeItem";
 
 export default {
@@ -77,8 +77,8 @@ export default {
       this.tab = id;
     },
     populateEpisodes(podcastItem) {
-      this.episodes.length = 0;
-      fetchEpisodesFromPodcastIndex(podcastItem.id).then(data => {
+      this.episodes.slice(0);
+      fetchEpisodes(podcastItem).then(data => {
         data.items.forEach(episode => {
           this.episodes.push(new EpisodeItem(episode));
         });
