@@ -20,7 +20,10 @@
       "breakOnLoad": true,
       "sourceMaps": true,
       "sourceMapPathOverrides": {
-        "webpack:///src/*": "${webRoot}/*"
+        "webpack:///./src/*.js": "${workspaceRoot}/src/*.js",
+        "webpack:///./src/*.tsx": "${workspaceRoot}/src/*.tsx",
+        "webpack:///./src/*.ts": "${workspaceRoot}/src/*.ts",
+        "webpack:///./node_modules/*": "${workspaceRoot}/node_modules/*"
       }
     },
     {
