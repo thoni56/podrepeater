@@ -47,13 +47,11 @@ export default {
       this.$emit("episode-unselected", episodeItem);
     },
     playNextEpisode() {
-      const episodeItem = this.repeats.find(
-        e => e.id == this.playingEpisodeItem
-      );
+      const episodeItem = this.repeats.find(e => e == this.playingEpisodeItem);
       const index = this.repeats.indexOf(episodeItem);
       const next = (index + 1) % this.repeats.length;
       this.playing = false;
-      this.play(this.repeats[next].id);
+      this.play(this.repeats[next]);
     },
     play(episodeItem) {
       if (episodeItem == this.playingEpisodeItem) {
@@ -66,10 +64,10 @@ export default {
         }
       } else {
         if (this.playing) audio.pause();
-        const theItem = this.repeats.find(e => e == episodeItem);
-        this.playingEpisodeItem = theItem;
+        const playingEpisode = this.repeats.find(e => e == episodeItem);
+        this.playingEpisodeItem = playingEpisode;
         audio.src = episodeItem.enclosure.url;
-        audio.onended = this.playNextEpisodeItem;
+        audio.onended = this.playNextEpisode;
         audio.play();
         this.playing = true;
         setTimeout(this.tick, 200);
