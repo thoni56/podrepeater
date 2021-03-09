@@ -4,11 +4,11 @@
       <div>
         <v-list-item-avatar tile class="ma-1" size="125">
           <v-img :src="episodeItem.imageURL"> </v-img>
-          <v-overlay :absolute="true" :opacity="0" :value="isPlaying">
+          <v-overlay :absolute="true" :opacity="0" :value="isCurrentEpisode">
             <v-progress-circular
               :value="progress"
               size="80"
-              width="7"
+              width="9"
               color="red"
               rotate="270"
             ></v-progress-circular>
@@ -78,6 +78,9 @@ export default {
   computed: {
     isPlaying() {
       return this.playingEpisodeItem == this.episodeItem && this.playing;
+    },
+    isCurrentEpisode() {
+      return this.playingEpisodeItem == this.episodeItem;
     }
   },
   methods: {
