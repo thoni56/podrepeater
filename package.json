@@ -12,6 +12,7 @@
     "@mdi/font": "^5.9.55",
     "core-js": "^3.6.5",
     "material-design-icons-iconfont": "^6.1.0",
+    "podparse": "^1.4.0",
     "serve": "^11.3.2",
     "sha1": "^1.1.1",
     "vue": "^2.6.11",
