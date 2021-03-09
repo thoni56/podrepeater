@@ -3,9 +3,9 @@
     <v-list>
       <Episode
         v-for="e in repeats"
-        :key="e.id"
+        :key="e.guid"
         :episode-item="e"
-        :playing-episode-id="playingEpisodeId"
+        :playing-episode-item="playingEpisodeItem"
         :playing="playing"
         :progress="currentProgress"
         action="remove"
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       playing: false,
-      playingEpisodeId: 0,
+      playingEpisodeItem: null,
       progress: 0
     };
   },
@@ -41,20 +41,22 @@ export default {
   },
   methods: {
     unselectEpisode(episodeItem) {
-      if (this.playingEpisodeId == episodeItem.id) {
-        this.play(this.playingEpisodeId);
+      if (this.playingEpisodeItem == episodeItem) {
+        this.play(this.playingEpisodeItem);
       }
       this.$emit("episode-unselected", episodeItem);
     },
     playNextEpisode() {
-      const episodeItem = this.repeats.find(e => e.id == this.playingEpisodeId);
+      const episodeItem = this.repeats.find(
+        e => e.id == this.playingEpisodeItem
+      );
       const index = this.repeats.indexOf(episodeItem);
       const next = (index + 1) % this.repeats.length;
       this.playing = false;
       this.play(this.repeats[next].id);
     },
-    play(id) {
-      if (id == this.playingEpisodeId) {
+    play(episodeItem) {
+      if (episodeItem == this.playingEpisodeItem) {
         if (this.playing) {
           audio.pause();
           this.playing = false;
@@ -64,10 +66,10 @@ export default {
         }
       } else {
         if (this.playing) audio.pause();
-        const episodeItem = this.repeats.find(e => e.id == id);
-        this.playingEpisodeId = id;
-        audio.src = episodeItem.audio;
-        audio.onended = this.playNextEpisode;
+        const theItem = this.repeats.find(e => e == episodeItem);
+        this.playingEpisodeItem = theItem;
+        audio.src = episodeItem.enclosure.url;
+        audio.onended = this.playNextEpisodeItem;
         audio.play();
         this.playing = true;
         setTimeout(this.tick, 200);

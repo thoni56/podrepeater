@@ -1,10 +1,17 @@
+// TODO Convert to taking a podcast-feed-parser episode item and add some data to it
+
 function get(html, name) {
-  console.log(name);
-  const elements = html.getElementsByTagName(name);
-  if (elements) {
-    return elements[0].innerHTML;
-  } else {
-    return "";
+  try {
+    const elements = html.getElementsByTagName(name);
+    if (elements) {
+      return elements[0].innerHTML;
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(
+      "Failed getting episode attribute '" + name + "'. Error: " + error
+    );
   }
 }
 
@@ -24,7 +31,7 @@ class EpisodeItem {
         } else {
           this.episode = 0;
         }
-        this.published = get(item, "pubdate");
+        this.published = get(item, "pubDate");
         this.audio = get(item, "enclosure");
         this.duration = get(item, "itunes:duration");
       } catch (error) {

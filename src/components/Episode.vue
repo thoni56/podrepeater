@@ -3,7 +3,7 @@
     <v-list-item three-line ripple class="text-left">
       <div>
         <v-list-item-avatar tile class="ma-1" size="125">
-          <v-img :src="episodeItem.image"> </v-img>
+          <v-img :src="episodeItem.imageURL"> </v-img>
           <v-overlay :absolute="true" :opacity="0" :value="isPlaying">
             <v-progress-circular
               :value="progress"
@@ -67,19 +67,17 @@
 </template>
 
 <script>
-import EpisodeItem from "../classes/EpisodeItem.js";
-
 export default {
   props: {
-    episodeItem: EpisodeItem,
+    episodeItem: undefined,
     action: { type: String, default: "" },
-    playingEpisodeId: { type: Number, default: 0 },
+    playingEpisodeItem: undefined,
     playing: { type: Boolean, default: false },
     progress: { type: Number, default: 0 }
   },
   computed: {
     isPlaying() {
-      return this.playingEpisodeId == this.episodeItem.id && this.playing;
+      return this.playingEpisodeItem == this.episodeItem && this.playing;
     }
   },
   methods: {
@@ -87,10 +85,12 @@ export default {
       this.$emit("selected", this.episodeItem);
     },
     play() {
-      this.$emit("play", this.episodeItem.id);
+      this.$emit("play", this.episodeItem);
     },
     publishDate() {
-      return new Date(this.episodeItem.published * 1000).toLocaleDateString();
+      return new Date(
+        Date.parse(this.episodeItem.pubDate)
+      ).toLocaleDateString();
     },
     duration() {
       if (this.episodeItem.duration == 0) {

@@ -32,7 +32,6 @@ import Episodes from "./Episodes.vue";
 import Repeats from "./Repeats.vue";
 import PodcastItem from "../classes/PodcastItem";
 import { fetchEpisodes } from "../classes/AppleAPI";
-import { EpisodeItem } from "../classes/EpisodeItem";
 
 export default {
   components: {
@@ -83,7 +82,7 @@ export default {
       this.episodes.slice(0); // Empty episodes list in a Vue compatible manner
       fetchEpisodes(podcastItem).then(episodes => {
         episodes.forEach(episode => {
-          this.episodes.push(new EpisodeItem(episode));
+          this.episodes.push(episode);
         });
       });
     }

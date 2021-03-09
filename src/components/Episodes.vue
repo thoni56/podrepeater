@@ -36,26 +36,21 @@ export default {
     },
     sortedEpisodes() {
       return [...this.episodes].sort((e1, e2) => {
-        if (e1.season == e2.season) {
-          if (e1.episode == e2.episode) {
-            return compare(e1.published, e2.published);
-          }
-          return compare(e1.episode, e2.episode);
+        if (e1.order && e2.order) {
+          if (e1.order < e2.order) return -1;
+          if (e1.order > e2.order) return 1;
+          return 0;
+        } else {
+          const d1 = Date.parse(e1.pubDate);
+          const d2 = Date.parse(e2.pubDate);
+          if (d1 < d2) return -1;
+          if (d1 > d2) return 1;
+          return 0;
         }
-        return compare(e1.season, e2.season);
       });
     }
   }
 };
-function compare(e1, e2) {
-  if (e1 < e2) {
-    return -1;
-  }
-  if (e1 < e2) {
-    return 1;
-  }
-  return 0;
-}
 </script>
 
 <style></style>
