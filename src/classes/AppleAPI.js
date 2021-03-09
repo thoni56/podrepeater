@@ -1,24 +1,6 @@
+import { EpisodeItem } from "./EpisodeItem";
+
 const searchUrl = "https://itunes.apple.com/search?media=podcast&term=";
-
-import { PodcastIndexEnv } from "../../podcastindex_env";
-import sha1 from "sha1";
-
-const createHeaders = () => {
-  // From Podcast Index API example
-  let apiKey = PodcastIndexEnv.PODCASTINDEX_KEY;
-  let apiSecret = PodcastIndexEnv.PODCASTINDEX_SECRET;
-  // ======== Hash them to get the Authorization token ========
-  let apiHeaderTime = Math.floor(Date.now() / 1000);
-  const data2Hash = apiKey + apiSecret + apiHeaderTime;
-  const sha = sha1(data2Hash).toString();
-  return {
-    // not needed right now, maybe in future:  "Content-Type": "application/json",
-    "X-Auth-Date": apiHeaderTime.toString(),
-    "X-Auth-Key": apiKey,
-    Authorization: sha,
-    "User-Agent": "PodRepeater/0.0"
-  };
-};
 
 async function fetchPodcasts(term) {
   const response = await fetch(searchUrl + term);
@@ -30,19 +12,23 @@ async function fetchPodcasts(term) {
 }
 
 // TODO Convert to read RSS-feeds for the id using Apple lookup(id)
-const episodesUrl =
-  "https://api.podcastindex.org/api/1.0/episodes/byfeedid?id=";
 
 async function fetchEpisodes(podcastItem) {
   const response = await fetch(podcastItem.rssUrl)
-    .then(data => data.text())
-    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-    .then(data => populateEpisodes(data.getElementsByTagName("item")));
+    .then(data =>
+      data.text().then(text => {
+        const doc = new window.DOMParser().parseFromString(text, "text/xml");
+        const items = doc.getElementsByTagName("item");
+        items.forEach(item => new EpisodeItem(item));
+      })
+    )
+    .catch(() =>
+      console.error("Error fetching episodes from RSS " + podcastItem.rssUrl)
+    );
 }
 
 function populateEpisodes(data) {
   const items = [].slice.call(data);
-  items.reverse();
   items.forEach(item => {
     const title = item.getElementsByTagName("title")[0].textContent;
     const image = item

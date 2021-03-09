@@ -42,7 +42,10 @@ export default {
   },
   data() {
     return {
-      tab: { type: Number, default: 0 },
+      tab: {
+        type: Number,
+        default: 0
+      },
       items: ["Podcasts", "Episodes", "Repeats"],
       selectedPodcastItem: PodcastItem,
       currentRepeats: [],
@@ -77,9 +80,9 @@ export default {
       this.tab = id;
     },
     populateEpisodes(podcastItem) {
-      this.episodes.slice(0);
-      fetchEpisodes(podcastItem).then(data => {
-        data.items.forEach(episode => {
+      this.episodes.slice(0); // Empty episodes list in a Vue compatible manner
+      fetchEpisodes(podcastItem).then(episodes => {
+        episodes.forEach(episode => {
           this.episodes.push(new EpisodeItem(episode));
         });
       });
@@ -89,4 +92,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped></style>

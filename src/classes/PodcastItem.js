@@ -16,6 +16,7 @@ module.exports = class PodcastItem {
       this.description = "";
       this.image = item.artworkUrl100;
       this.categories = item.genres;
+      this.rssUrl = item.feedUrl;
     }
   }
 };
