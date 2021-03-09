@@ -19,7 +19,7 @@
             </v-card-subtitle>
           </template>
           <div class="text-left">
-            <span>{{ podcastItem.description }}</span>
+            <span>{{ stripHtmlFrom(podcastItem.description) }}</span>
           </div>
         </v-tooltip>
         <v-card-text>
@@ -46,6 +46,10 @@ export default {
   methods: {
     select() {
       this.$emit("selected", this.podcastItem);
+    },
+    stripHtmlFrom(html) {
+      let doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent || "";
     }
   }
 };

@@ -30,7 +30,7 @@
             </v-list-item-subtitle>
           </template>
           <div class="text-left">
-            <span>{{ episodeItem.description }}</span>
+            <span>{{ stripHtmlFrom(episodeItem.description) }}</span>
           </div>
         </v-tooltip>
         <div>
@@ -103,6 +103,10 @@ export default {
           .toISOString()
           .substr(11, 8);
       }
+    },
+    stripHtmlFrom(html) {
+      let doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent || "";
     }
   }
 };
