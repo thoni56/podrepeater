@@ -79,7 +79,7 @@ export default {
       this.tab = id;
     },
     populateEpisodes(podcastItem) {
-      this.episodes.slice(0); // Empty episodes list in a Vue compatible manner
+      this.episodes.splice(0, this.episodes.length); // Empty episodes list in a Vue compatible manner
       fetchEpisodes(podcastItem).then(episodes => {
         episodes.forEach(episode => {
           this.episodes.push(episode);
