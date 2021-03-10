@@ -12,6 +12,7 @@ async function fetchPodcasts(term) {
 }
 
 async function fetchEpisodes(podcastItem) {
+  podcastItem.rssUrl = podcastItem.rssUrl.replace("http:", "https:");
   const podcast = await getPodcastFromURL(podcastItem.rssUrl);
   return podcast.episodes;
 }
