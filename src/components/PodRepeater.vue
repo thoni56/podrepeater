@@ -2,7 +2,15 @@
   <v-app>
     <v-container>
       <v-tabs v-model="tab" grow>
-        <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
+        <v-tab v-for="item in items" :key="item">
+          <v-badge
+            v-if="item == 'Repeats' && repeats.length > 0"
+            :content="repeats.length"
+          >
+            {{ item }}
+          </v-badge>
+          <span v-else> {{ item }} </span>
+        </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item key="Podcasts">
