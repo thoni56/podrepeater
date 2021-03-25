@@ -16,18 +16,29 @@
         </v-list-item-avatar>
       </div>
       <v-list-item-content class="pt-0">
-        <v-list-item-title>
-          {{ episodeItem.title }}
-        </v-list-item-title>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-list-item-subtitle
-              style="margin-top:-20px"
+            <v-list-item-title
+              class="text-h6 truncated"
               v-bind="attrs"
               v-on="on"
-              v-html="episodeItem.description"
             >
-            </v-list-item-subtitle>
+              {{ episodeItem.title }}
+            </v-list-item-title>
+          </template>
+          <span>{{ episodeItem.title }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <div class="truncated">
+              <v-list-item-text
+                style="margin-top:-20px"
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ stripHtmlFrom(episodeItem.description) }}
+              </v-list-item-text>
+            </div>
           </template>
           <div class="text-left">
             <span>{{ stripHtmlFrom(episodeItem.description) }}</span>
