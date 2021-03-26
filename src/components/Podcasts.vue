@@ -14,7 +14,7 @@
         </v-text-field>
       </v-container>
     </v-card>
-    <v-container>
+    <v-container style="max-height:100vh" class="overflow-y-auto">
       <Podcast
         v-for="p in podcasts"
         :key="p.id"

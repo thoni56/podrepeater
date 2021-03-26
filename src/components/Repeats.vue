@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-list>
+    <v-list style="max-height:100vh" class="overflow-y-auto">
       <Episode
         v-for="e in repeats"
         :key="e.guid"

@@ -4,15 +4,17 @@
       <Podcast :podcast-item="podcastItem" />
     </v-card>
 
-    <v-list>
-      <Episode
-        v-for="e in sortedEpisodes()"
-        :key="e.id"
-        :episode-item="e"
-        action="add"
-        @selected="onSelected"
-      />
-    </v-list>
+    <v-container style="max-height:100vh" class="overflow-y-auto">
+      <v-list>
+        <Episode
+          v-for="e in sortedEpisodes()"
+          :key="e.id"
+          :episode-item="e"
+          action="add"
+          @selected="onSelected"
+        />
+      </v-list>
+    </v-container>
   </v-container>
 </template>
 
