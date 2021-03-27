@@ -16,7 +16,7 @@
         </v-list-item-avatar>
       </div>
       <v-list-item-content class="pt-0">
-        <v-tooltip bottom>
+        <v-tooltip left open-delay="1000">
           <template v-slot:activator="{ on, attrs }">
             <v-list-item-title
               class="text-h6 truncated"
@@ -28,11 +28,11 @@
           </template>
           <span>{{ episodeItem.title }}</span>
         </v-tooltip>
-        <v-tooltip bottom>
+        <v-tooltip bottom open-delay="1000">
           <template v-slot:activator="{ on, attrs }">
             <div
               class="truncated"
-              style="margin-top:-20px"
+              style="margin-top:-20px;"
               v-bind="attrs"
               v-on="on"
             >

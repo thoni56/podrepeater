@@ -10,7 +10,7 @@
             {{ podcastItem.title }}
           </div>
         </v-card-title>
-        <v-tooltip bottom>
+        <v-tooltip bottom open-delay="1000">
           <template v-slot:activator="{ on, attrs }">
             <v-card-subtitle v-bind="attrs" v-on="on">
               <div class="truncated">
