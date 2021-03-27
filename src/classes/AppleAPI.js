@@ -16,6 +16,7 @@ async function fetchEpisodes(podcastItem) {
   const podcast = await getPodcastFromURL(podcastItem.rssUrl);
   // Remember where it came from
   podcast.episodes.forEach(episode => {
+    episode.id = podcastItem.id;
     episode.rss = podcastItem.rssUrl;
   });
   return podcast.episodes;
