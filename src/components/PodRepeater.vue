@@ -75,11 +75,10 @@ export default {
     },
     onEpisodeSelected(episodeItem) {
       this.currentRepeats.push(episodeItem);
-      console.log(
-        this.currentRepeats.map(r => {
+      const cookies = this.currentRepeats.map(r => {
           return { rss: r.rss, id: r.id };
-        })
-      );
+      });
+      this.$cookies.set("podrepeats", JSON.stringify(cookies));
     },
     onEpisodeUnselected(episodeItem) {
       const index = this.currentRepeats.indexOf(episodeItem);
