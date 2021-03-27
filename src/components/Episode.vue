@@ -30,14 +30,13 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <div class="truncated">
-              <v-list-item-text
-                style="margin-top:-20px"
-                v-bind="attrs"
-                v-on="on"
-              >
-                {{ stripHtmlFrom(episodeItem.description) }}
-              </v-list-item-text>
+            <div
+              class="truncated"
+              style="margin-top:-20px"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ stripHtmlFrom(episodeItem.description) }}
             </div>
           </template>
           <div class="text-left">
