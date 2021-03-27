@@ -2,14 +2,14 @@
   <v-app>
     <v-container>
       <v-tabs v-model="tab" grow>
-        <v-tab v-for="item in items" :key="item">
+        <v-tab v-for="tabName in tabNames" :key="tabName">
           <v-badge
-            v-if="item == 'Repeats' && repeats.length > 0"
+            v-if="tabName == 'Repeats' && repeats.length > 0"
             :content="repeats.length"
           >
-            {{ item }}
+            {{ tabName }}
           </v-badge>
-          <span v-else> {{ item }} </span>
+          <span v-else> {{ tabName }} </span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
@@ -53,7 +53,7 @@ export default {
         type: Number,
         default: 0
       },
-      items: ["Podcasts", "Episodes", "Repeats"],
+      tabNames: ["Podcasts", "Episodes", "Repeats"],
       selectedPodcastItem: PodcastItem,
       currentRepeats: [],
       episodes: []
@@ -75,6 +75,11 @@ export default {
     },
     onEpisodeSelected(episodeItem) {
       this.currentRepeats.push(episodeItem);
+      console.log(
+        this.currentRepeats.map(r => {
+          return { rss: r.rss, id: r.id };
+        })
+      );
     },
     onEpisodeUnselected(episodeItem) {
       const index = this.currentRepeats.indexOf(episodeItem);
