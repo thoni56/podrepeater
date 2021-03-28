@@ -25,7 +25,6 @@ async function fetchEpisodes(podcastItem) {
 
 async function fetchEpisode(rss, id) {
   const podcast = await getPodcastFromURL(rss);
-  console.log("fetchEpisode()");
   let episode = undefined;
   podcast.episodes.forEach(e => {
     // There is no id in podcast-parser data about episodes so we use the link
