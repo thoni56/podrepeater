@@ -16,10 +16,26 @@ async function fetchEpisodes(podcastItem) {
   const podcast = await getPodcastFromURL(podcastItem.rssUrl);
   // Remember where it came from
   podcast.episodes.forEach(episode => {
+    // There is no id in podcast-parser data about episodes so we use the link
     episode.id = episode.link;
     episode.rss = podcastItem.rssUrl;
   });
   return podcast.episodes;
 }
 
-export { fetchPodcasts, fetchEpisodes };
+async function fetchEpisode(rss, id) {
+  const podcast = await getPodcastFromURL(rss);
+  console.log("fetchEpisode()");
+  let episode = undefined;
+  podcast.episodes.forEach(e => {
+    // There is no id in podcast-parser data about episodes so we use the link
+    if (e.link == id) {
+      e.id = id;
+      e.rss = rss;
+      episode = e;
+    }
+  });
+  return episode;
+}
+
+export { fetchPodcasts, fetchEpisodes, fetchEpisode };
