@@ -4,8 +4,8 @@
       <v-tabs v-model="tab" grow>
         <v-tab v-for="tabName in tabNames" :key="tabName">
           <v-badge
-            v-if="tabName == 'Repeats' && repeats.length > 0"
-            :content="repeats.length"
+            v-if="tabName == 'Repeats' && currentRepeatCount > 0"
+            :content="currentRepeatCount"
           >
             {{ tabName }}
           </v-badge>
@@ -65,6 +65,9 @@ export default {
   computed: {
     podcastItem() {
       return this.selectedPodcastItem;
+    },
+    currentRepeatCount() {
+      return this.currentRepeats.length;
     },
     repeats() {
       return this.currentRepeats;
