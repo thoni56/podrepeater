@@ -19,6 +19,7 @@
 
 <script>
 import Episode from "./Episode.vue";
+import { fetchEpisode } from "../classes/AppleAPI.js";
 
 const audio = new Audio();
 
@@ -29,6 +30,7 @@ export default {
       currentRepeats: [],
       playing: false,
       playingEpisodeItem: null,
+      time: 0,
       progress: 0
     };
   },
@@ -37,10 +39,17 @@ export default {
       return this.progress;
     }
   },
+  created() {
+    const state = JSON.parse(localStorage.getItem("podrepeats"));
+    this.reloadRepeats(state);
+  },
   methods: {
+    repeatCountUpdated() {
+      this.$emit("repeats-count-updated", this.currentRepeats.length);
+    },
     addRepeatingEpisode(episodeItem) {
       this.currentRepeats.push(episodeItem);
-      this.$emit("repeats-count-updated", this.currentRepeats.length);
+      this.repeatCountUpdated();
     },
     currentRepeatCount() {
       return this.currentRepeats.length;
@@ -53,7 +62,7 @@ export default {
       if (index > -1) {
         this.currentRepeats.splice(index, 1);
       }
-      this.$emit("repeats-count-updated", this.currentRepeats.length);
+      this.repeatCountUpdated();
     },
     playNextEpisode() {
       const episodeItem = this.currentRepeats.find(
@@ -68,6 +77,7 @@ export default {
       audio.pause();
       audio.currentTime = 0;
       this.playingEpisodeItem = null;
+      this.currentTime = 0;
       this.progress = 0;
     },
     play(episodeItem) {
@@ -93,15 +103,48 @@ export default {
       }
     },
     startTick() {
-      this.timer = setTimeout(this.tick, 200);
+      this.timer = setTimeout(this.tick, 666);
     },
     tick() {
       if (isNaN(audio.duration)) {
         this.progress = 0;
       } else {
+        this.time = audio.currentTime;
         this.progress = (audio.currentTime / audio.duration) * 100;
       }
+      this.saveState();
       this.startTick();
+    },
+    saveState() {
+      const state = this.currentRepeats.map(r => {
+        return {
+          rss: r.rss,
+          id: r.id,
+          time: r.id == this.playingEpisodeItem.id ? this.time : 0,
+          progress: this.progress
+        };
+      });
+      localStorage.setItem("podrepeats", JSON.stringify(state));
+    },
+    reloadRepeats(state) {
+      if (state) {
+        state.forEach(episodeInfo => {
+          fetchEpisode(episodeInfo.rss, episodeInfo.id).then(e => {
+            if (e != undefined) {
+              this.currentRepeats.push(e);
+              this.repeatCountUpdated();
+              if (episodeInfo.time != 0) {
+                this.playingEpisodeItem = e;
+                this.currentTime = episodeInfo.time;
+                this.progress = episodeInfo.progress;
+                audio.src = e.enclosure.url;
+                audio.currentTime = this.currentTime;
+                audio.onended = this.playNextEpisode;
+              }
+            }
+          });
+        });
+      }
     }
   }
 };

@@ -90,12 +90,6 @@ export default {
     setTab(id) {
       this.tab = id;
     },
-    setCookies() {
-      const cookies = this.currentRepeats.map(r => {
-        return { rss: r.rss, id: r.id };
-      });
-      this.$cookies.set("podrepeats", JSON.stringify(cookies));
-    },
     populateEpisodes(podcastItem) {
       this.episodes.splice(0, this.episodes.length); // Empty episodes list in a Vue compatible manner
       fetchEpisodes(podcastItem).then(episodes => {
@@ -103,17 +97,6 @@ export default {
           this.episodes.push(episode);
         });
       });
-    },
-    reloadRepeats(episodeCookies) {
-      if (episodeCookies) {
-        episodeCookies.forEach(episodeInfo => {
-          fetchEpisode(episodeInfo.rss, episodeInfo.id).then(e => {
-            if (e != undefined) {
-              this.currentRepeats.push(e);
-            }
-          });
-        });
-      }
     }
   }
 };
