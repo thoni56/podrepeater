@@ -58,9 +58,11 @@ export default {
         if (this.playing) {
           audio.pause();
           this.playing = false;
+          clearTimeout(this.timer);
         } else {
           audio.play();
           this.playing = true;
+          this.startTick();
         }
       } else {
         if (this.playing) audio.pause();
@@ -70,8 +72,11 @@ export default {
         audio.onended = this.playNextEpisode;
         audio.play();
         this.playing = true;
-        setTimeout(this.tick, 200);
+        this.startTick();
       }
+    },
+    startTick() {
+      this.timer = setTimeout(this.tick, 200);
     },
     tick() {
       if (isNaN(audio.duration)) {
@@ -79,7 +84,7 @@ export default {
       } else {
         this.progress = (audio.currentTime / audio.duration) * 100;
       }
-      setTimeout(this.tick, 200);
+      this.startTick();
     }
   }
 };
