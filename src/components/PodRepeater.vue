@@ -26,7 +26,6 @@
         <v-tab-item key="Repeats">
           <Repeats
             ref="repeatsComponent"
-            :repeats="repeats"
             @episode-unselected="onEpisodeUnselected"
             @repeats-count-updated="onRepeatsCountUpdated"
           />

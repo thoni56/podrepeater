@@ -24,9 +24,6 @@ const audio = new Audio();
 
 export default {
   components: { Episode },
-  props: {
-    repeats: { type: Array, default: () => [] }
-  },
   data() {
     return {
       currentRepeats: [],
@@ -50,10 +47,8 @@ export default {
     },
     unselectEpisode(episodeItem) {
       if (this.playingEpisodeItem == episodeItem) {
-        this.play(this.playingEpisodeItem);
+        this.stop();
       }
-      this.$emit("episode-unselected", episodeItem);
-
       const index = this.currentRepeats.indexOf(episodeItem);
       if (index > -1) {
         this.currentRepeats.splice(index, 1);
@@ -68,6 +63,12 @@ export default {
       const next = (index + 1) % this.currentRepeats.length;
       this.playing = false;
       this.play(this.currentRepeats[next]);
+    },
+    stop() {
+      audio.pause();
+      audio.currentTime = 0;
+      this.playingEpisodeItem = null;
+      this.progress = 0;
     },
     play(episodeItem) {
       if (episodeItem == this.playingEpisodeItem) {
