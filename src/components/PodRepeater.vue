@@ -25,7 +25,7 @@
         </v-tab-item>
         <v-tab-item key="Repeats">
           <Repeats
-            ref="repeats"
+            ref="repeatsComponent"
             :repeats="repeats"
             @episode-unselected="onEpisodeUnselected"
             @repeats-count-updated="onRepeatsCountUpdated"
@@ -71,7 +71,11 @@ export default {
     }
   },
   created() {
-    this.reloadRepeats(JSON.parse(this.$cookies.get("podrepeats")));
+    //this.reloadRepeats(JSON.parse(this.$cookies.get("podrepeats")));
+    this.setTab(2); // Set to repeats tab to render and populate this.$refs
+  },
+  mounted() {
+    this.setTab(0); // Set to podcasts tab since that's where we start
   },
   methods: {
     onPodcastSelected(podcastItem) {
@@ -82,7 +86,7 @@ export default {
     onEpisodeSelected(episodeItem) {
       this.currentRepeats.push(episodeItem);
       this.setCookies();
-      this.$refs.repeats.addRepeatingEpisode(episodeItem);
+      this.$refs.repeatsComponent.addRepeatingEpisode(episodeItem);
     },
     onEpisodeUnselected(episodeItem) {
       const index = this.currentRepeats.indexOf(episodeItem);
