@@ -75,7 +75,7 @@ export default {
     }
   },
   created() {
-    const x = this.reloadRepeats(JSON.parse(this.$cookies.get("podrepeats")));
+    this.reloadRepeats(JSON.parse(this.$cookies.get("podrepeats")));
   },
   methods: {
     onPodcastSelected(podcastItem) {
