@@ -58,14 +58,16 @@ export default {
       if (index > -1) {
         this.currentRepeats.splice(index, 1);
       }
-      this.$emit("repeat-count-updated", this.currentRepeats.length);
+      this.$emit("repeats-count-updated", this.currentRepeats.length);
     },
     playNextEpisode() {
-      const episodeItem = this.repeats.find(e => e == this.playingEpisodeItem);
-      const index = this.repeats.indexOf(episodeItem);
-      const next = (index + 1) % this.repeats.length;
+      const episodeItem = this.currentRepeats.find(
+        e => e == this.playingEpisodeItem
+      );
+      const index = this.currentRepeats.indexOf(episodeItem);
+      const next = (index + 1) % this.currentRepeats.length;
       this.playing = false;
-      this.play(this.repeats[next]);
+      this.play(this.currentRepeats[next]);
     },
     play(episodeItem) {
       if (episodeItem == this.playingEpisodeItem) {
@@ -80,7 +82,7 @@ export default {
         }
       } else {
         if (this.playing) audio.pause();
-        const playingEpisode = this.repeats.find(e => e == episodeItem);
+        const playingEpisode = this.currentRepeats.find(e => e == episodeItem);
         this.playingEpisodeItem = playingEpisode;
         audio.src = episodeItem.enclosure.url;
         audio.onended = this.playNextEpisode;
