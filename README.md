@@ -19,3 +19,7 @@ This is currently implemented using _Vue_ and _Vuetify_.
 To start
 
     npm run serve
+
+then navigate to http://localhost:8080.
+
+There is also an Netlify app automatically built from the latest working commit at https://podrepeater.netlify.app.
