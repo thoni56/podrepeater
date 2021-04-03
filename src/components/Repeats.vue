@@ -29,6 +29,7 @@ export default {
   },
   data() {
     return {
+      currentRepeats: [],
       playing: false,
       playingEpisodeItem: null,
       progress: 0
@@ -40,11 +41,19 @@ export default {
     }
   },
   methods: {
+    addRepeatingEpisode(episodeItem) {
+      this.currentRepeats.push(episodeItem);
+    },
     unselectEpisode(episodeItem) {
       if (this.playingEpisodeItem == episodeItem) {
         this.play(this.playingEpisodeItem);
       }
       this.$emit("episode-unselected", episodeItem);
+
+      const index = this.currentRepeats.indexOf(episodeItem);
+      if (index > -1) {
+        this.currentRepeats.splice(index, 1);
+      }
     },
     playNextEpisode() {
       const episodeItem = this.repeats.find(e => e == this.playingEpisodeItem);

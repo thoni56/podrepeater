@@ -25,6 +25,7 @@
         </v-tab-item>
         <v-tab-item key="Repeats">
           <Repeats
+            ref="repeats"
             :repeats="repeats"
             @episode-unselected="onEpisodeUnselected"
           />
@@ -85,6 +86,7 @@ export default {
     onEpisodeSelected(episodeItem) {
       this.currentRepeats.push(episodeItem);
       this.setCookies();
+      this.$refs.repeats.addRepeatingEpisode(episodeItem);
     },
     onEpisodeUnselected(episodeItem) {
       const index = this.currentRepeats.indexOf(episodeItem);
