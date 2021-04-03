@@ -28,6 +28,7 @@
             ref="repeats"
             :repeats="repeats"
             @episode-unselected="onEpisodeUnselected"
+            @repeats-count-updated="onRepeatsCountUpdated"
           />
         </v-tab-item>
       </v-tabs-items>
@@ -60,18 +61,13 @@ export default {
       tabNames: ["Podcasts", "Episodes", "Repeats"],
       selectedPodcastItem: PodcastItem,
       currentRepeats: [],
+      currentRepeatCount: 0,
       episodes: []
     };
   },
   computed: {
     podcastItem() {
       return this.selectedPodcastItem;
-    },
-    currentRepeatCount() {
-      return this.currentRepeats.length;
-    },
-    repeats() {
-      return this.currentRepeats;
     }
   },
   created() {
@@ -94,6 +90,9 @@ export default {
         this.currentRepeats.splice(index, 1);
       }
       this.setCookies();
+    },
+    onRepeatsCountUpdated(count) {
+      this.currentRepeatCount = count;
     },
     setTab(id) {
       this.tab = id;

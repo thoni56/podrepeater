@@ -2,7 +2,7 @@
   <v-container>
     <v-list style="max-height:100vh" class="overflow-y-auto">
       <Episode
-        v-for="e in repeats"
+        v-for="e in currentRepeats"
         :key="e.guid"
         :episode-item="e"
         :playing-episode-item="playingEpisodeItem"
@@ -43,6 +43,10 @@ export default {
   methods: {
     addRepeatingEpisode(episodeItem) {
       this.currentRepeats.push(episodeItem);
+      this.$emit("repeats-count-updated", this.currentRepeats.length);
+    },
+    currentRepeatCount() {
+      return this.currentRepeats.length;
     },
     unselectEpisode(episodeItem) {
       if (this.playingEpisodeItem == episodeItem) {
@@ -54,6 +58,7 @@ export default {
       if (index > -1) {
         this.currentRepeats.splice(index, 1);
       }
+      this.$emit("repeat-count-updated", this.currentRepeats.length);
     },
     playNextEpisode() {
       const episodeItem = this.repeats.find(e => e == this.playingEpisodeItem);
